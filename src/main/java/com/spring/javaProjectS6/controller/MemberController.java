@@ -46,5 +46,9 @@ public class MemberController {
 		return "member/login";
 	}
 	
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String joinGet() {
+		return "member/join";
+	}
 	
 }
