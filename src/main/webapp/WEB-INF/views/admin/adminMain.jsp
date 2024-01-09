@@ -3,21 +3,20 @@
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
-<title>home.jsp</title>
+<title>adminMain.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 <style>
-	html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif;}
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+	html,body,h1,h2,h3,h4,h5 {font-family: 'Noto Sans KR', sans-serif;}
 	.w3-bar-block .w3-bar-item{padding:16px}
 </style>
 <body>
 
 <!-- Side Navigation -->
-<nav class="w3-sidebar w3-bar-block w3-collapse w3-white w3-animate-left w3-card" style="z-index:3;width:320px;" id="mySidebar">
-  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom w3-large"><img src="https://www.w3schools.com/images/w3schools.png" style="width:60%;"></a>
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-white w3-animate-left w3-card" style="z-index:3;width:250px;" id="mySidebar">
+  <a href="${ctp}/" class="w3-bar-item w3-button w3-border-bottom w3-large"><img src="https://www.w3schools.com/images/w3schools.png" style="width:60%;"></a>
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="document.getElementById('id01').style.display='block'">New Message <i class="w3-padding fa fa-pencil"></i></a>
   <a id="myBtn" onclick="myFunc('Demo1')" href="javascript:void(0)" class="w3-bar-item w3-button"><i class="fa fa-inbox w3-margin-right"></i>Inbox (3)<i class="w3-margin-left fa fa-caret-down"></i></a>
   <div id="Demo1" class="w3-hide w3-animate-left">
@@ -33,11 +32,11 @@
     </a>
     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom test w3-hover-light-grey" onclick="openMail('John');">
       <div class="w3-container">
-        <p>Welcome!</p>
+        <p>상품 관리</p>
       </div>
     </a>
   </div>
-  <a href="${ctp}/member/login" class="w3-bar-item w3-button"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
+  <a href="#" class="w3-bar-item w3-button"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
   <a href="#" class="w3-bar-item w3-button"><i class="fa fa-hourglass-end w3-margin-right"></i>Drafts</a>
   <a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash w3-marghin-right"></i>Trash</a>
 </nav>
@@ -98,16 +97,9 @@
   <p>Forever yours,<br>Jane</p>
 </div>
 
-<div id="John" class="w3-container person">
+<div id="John" class="w3-container">
   <br>
-  <img class="w3-round w3-animate-top" src="/w3images/avatar2.png" style="width:20%;">
-  <h5 class="w3-opacity">Subject: None</h5>
-  <h4><i class="fa fa-clock-o"></i> From John Doe, Sep 23, 2015.</h4>
-  <a class="w3-button">Reply<i class="w3-padding fa fa-mail-reply"></i></a>
-  <a class="w3-button">Forward<i class="w3-padding fa fa-arrow-right"></i></a>
-  <hr>
-  <p>Welcome.</p>
-  <p>That's it!</p>
+  <jsp:include page="/WEB-INF/views/admin/shopCategory.jsp" />
 </div>
      
 </div>

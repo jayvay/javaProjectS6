@@ -11,7 +11,7 @@
 <body>
   <div class="w3-bar w3-white w3-card justify-content-center nav">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="${ctp}/" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+    <a href="${ctp}/admin/adminMain" class="w3-bar-item w3-button w3-padding-large">관리자</a>
     <!-- <a href="http://192.168.50.52:9090/javaProjectS" class="w3-bar-item w3-button w3-padding-large">HOME</a> -->
     <a href="${ctp}/guest/guestList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">GUEST</a>
 	    <a href="${ctp}/board/boardList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BOARD</a>

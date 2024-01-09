@@ -19,7 +19,7 @@ div a, div a:hover {
 .bgimg-1 {
   background-position: center;
   background-size: cover;
-  min-height: 75%;
+  min-height: 80%;
 }
 
 .w3-bar .w3-button {
@@ -28,7 +28,7 @@ div a, div a:hover {
 
 .topMenu {
 	font-size: 9pt;
-	margin: 0 50px;
+	margin: 0 300px;
 }
 
 .logo {
