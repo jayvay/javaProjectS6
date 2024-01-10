@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<html>
+<head>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 body,h1,h2,h3,h4,h5,h6 {font-family: 'Noto Sans KR', sans-serif;}
@@ -86,6 +88,8 @@ div a, div a:hover {
 	
 	
 </script>
+</head>
+<body>
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
@@ -153,3 +157,5 @@ function w3_close() {
     mySidebar.style.display = "none";
 }
 </script>
+</body>
+</html>
