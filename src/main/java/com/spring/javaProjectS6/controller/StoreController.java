@@ -1,6 +1,7 @@
 package com.spring.javaProjectS6.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,7 +15,9 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-	public String goodsDetailGet() {
+	public String goodsDetailGet(Model model, int idx) {
+		
+		//model.addAttribute("", );
 		return "store/goodsDetail";
 	}
 	

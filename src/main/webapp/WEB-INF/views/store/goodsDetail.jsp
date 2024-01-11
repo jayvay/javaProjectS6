@@ -42,7 +42,6 @@
   		position: relative;
   		font-size: 16px;
   		margin-bottom: 5px;
-  		font-weight: 700
   	}
   	.cntBox {
   		position: relative;
@@ -140,22 +139,36 @@
   			<span class="price-2"><strong>29,000</strong><span>원</span></span>
   		</div>
   		<div class="moreInfo">
-  			<div class="row">
-  				<p>배송정보</p>
-  				2,500원(20,000원 이상 무료배송)</div>
-  			</div>
+  			<div style="display: table;">
+  				<span style="display: table-cell; font-weight: 700;">배송정보</span>
+  				<span style="width:1px; height:10px; border-right: 1px solid gray;"></span>
+  				<div style="display: table-cell;"> 2,500원(20,000원 이상 무료배송)</div>
+				</div>
   		</div>
   		<hr/>
+      <div class="form-group">
+        <form name="optionForm">
+          <select size="1" class="form-control" id="prdOption">
+            <option value="" disabled selected>상품옵션선택</option>
+            <option value="0:기본품목_${productVO.mainPrice}">기본품목</option>
+            <c:forEach var="vo" items="${optionVOS}">
+              <option value="${vo.opIdx}:${vo.optionName}_${vo.optionPrice}">${vo.optionName}</option>
+            </c:forEach>
+          </select>
+        </form>
+      </div>
+  		
   		<div class="cntBox">
   			<div>구매수량</div>
   			<div class="cnt">
   				<span class="cntOption">
-	  				<button class="btnCalc minus" onclick="">수량 1감소</button>
-	  				<input type="text" id="" name="" value="1" class="tx_num" title="구매수량">
-	  				<button class="btnCalc plus" onclick="">수량 1증가</button>
+	  				<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>
+	  				<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">
+	  				<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>
   				</span>
   			</div>
   		</div>
+  		
   		<div class="totalPrice">
   			<span style="float: left; font-size: 18px;">상품금액 합계</span>
   			<span style="float: right;"><span class="totPrc">28,900</span>원</span>
@@ -165,8 +178,58 @@
   			<button class="btnBuy" onclick="">바로구매</button>
   		</div>
   	</div>
+  	<hr/>
+  	<div></div>
   </div>
 </div>
 <p><br/></p>
+<script>
+	'use strict';
+	
+	function numCalc(type, ths) {
+		let inputNum = $(ths).parents("span").find("input[name='numCalc']");
+		let cnt = Number(inputNum.val());
+		
+		 if(type == 'p') {
+			 inputNum.val(Number(cnt + 1));
+		 }
+		 else {
+			 if(cnt > 0) inputNum.val(Number(cnt - 1));
+		 }
+	}
+	
+	$("#prdOption").change(function() {
+		let prdOption = $(this).val();
+		let idx = prdOption.substring(0, prdOption.indexOf(":"));
+		let optionName = prdOption.substring(prdOption.indexOf(":")+1, prdOption.indexOf("_"));
+		let optionPrice = prdOption.substring(prdOption.indexOf("_")+1);
+		let comma = numberWithCommas(optionPrice);
+		
+		if($('#layer'+idx).length == 0 && prdOption != "") {
+			idxArray[idx] = idx;
+			
+			let str = '';
+			str += '<div class="cntBox">';
+			str += '<div class="layer row" id="layer"'+idx+'"><div class="col">'+optionName+'</div>';
+			str += '<div class="cnt">';
+			str += '<span class="cntOption">';
+			str += '<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>';
+			str += '<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">';
+			str += '<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>';
+			str += '</span>';
+			str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove('+idx+')" value="삭제"/>';
+			str += '</div>';
+			str += '</div>';
+			
+			
+		}
+			
+	});
+	
+  // 천 단위마다 콤마를 표시해 주는 함수
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+  }
+</script>
 </body>
 </html>

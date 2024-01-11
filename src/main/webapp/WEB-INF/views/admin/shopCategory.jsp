@@ -42,10 +42,10 @@
 			  		<th>대분류명</th>
 			  		<th>비고</th> 
 		  		</tr>
-			  	<c:forEach var="maCatVO" items="${maCatVOS}">
+			  	<c:forEach var="majorCatVO" items="${majorCatVOS}">
 			  		<tr>
-				  		<td>${maCatVO.majorCatCode}</td>
-				  		<td>${maCatVO.majorCatName}</td>
+				  		<td>${majorCatVO.majorCatCode}</td>
+				  		<td>${majorCatVO.majorCatName}</td>
 				  		<td><button onclick="" class="btn btn-sm btn-danger">삭제</button></td>
 				  	</tr>
 			  	</c:forEach>
@@ -72,10 +72,10 @@
 			  		<th>중분류명</th>
 			  		<th>비고</th> 
 		  		</tr>
-			  	<c:forEach var="midCatVO" items="${midCatVOS}">
+			  	<c:forEach var="middleCatVO" items="${middleCatVOS}">
 			  		<tr>
-				  		<td>${midCatVO.middleCatCode}</td>
-				  		<td>${midCatVO.middleCatName}</td>
+				  		<td>${middleCatVO.middleCatCode}</td>
+				  		<td>${middleCatVO.middleCatName}</td>
 				  		<td><button onclick="" class="btn btn-sm btn-danger">삭제</button></td>
 				  	</tr>
 			  	</c:forEach>
@@ -102,10 +102,10 @@
 			  		<th>소분류명</th>
 			  		<th>비고</th> 
 		  		</tr>
-			  	<c:forEach var="smCatVO" items="${smCatVOS}">
+			  	<c:forEach var="subCatVO" items="${subCatVOS}">
 			  		<tr>
-				  		<td>${smCatVO.smallCatCode}</td>
-				  		<td>${smCatVO.smallCatName}</td>
+				  		<td>${subCatVO.subCatCode}</td>
+				  		<td>${subCatVO.subCatName}</td>
 				  		<td><button onclick="" class="btn btn-sm btn-danger">삭제</button></td>
 				  	</tr>
 			  	</c:forEach>
@@ -114,8 +114,8 @@
   		<div class="col"><h5>소분류 등록</h5>
 		  	<div class="row">
 		  		<div class="col"></div>
-			  	<div class="col-4"><label for="smallCatCode">소분류코드</label><input type="text" name="smallCatCode" size="1" maxlength="1" class="form-control"/></div>
-			  	<div class="col-6"><label for="smallCatName">소분류명</label><input type="text" name="smallCatName" class="form-control"/></div>
+			  	<div class="col-4"><label for="subCatCode">소분류코드</label><input type="text" name="subCatCode" size="1" maxlength="1" class="form-control"/></div>
+			  	<div class="col-6"><label for="subCatName">소분류명</label><input type="text" name="subCatName" class="form-control"/></div>
 		  		<div class="col"></div>
 		  	</div>
 		 	</div>
