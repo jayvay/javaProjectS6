@@ -19,7 +19,7 @@
   <div class="w3-row">
     <div class="w3-col l3 s6">
       <div class="w3-container">
-      	<a href="${ctp}/store/goodsDetail?">
+      	<a href="${ctp}/store/goodsDetail?prdIdx=1">
 	        <img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0019/A00000019810902ko.jpg?l=ko" style="width:100%">
 	        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
       	</a>
@@ -49,8 +49,10 @@
 
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0019/A00000019810902ko.jpg?l=ko" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      	<a href="${ctp}/store/goodsDetail?prdIdx=2">
+	        <img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0019/A00000019810902ko.jpg?l=ko" style="width:100%">
+	        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+        </a>
       </div>
       <div class="w3-container">
         <div class="w3-display-container">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -51,10 +52,26 @@
   		background-color: #f9f9f9;
   		border-radius: 5px;
   	}
+  	.cntBox2 {
+  		position: relative;
+			margin: 10px 0 0;
+			padding: 15px 20px;
+  		border: 1px solid #e9e9e9;
+  		background-color: #f9f9f9;
+  		border-radius: 5px;
+  		height: 90px;
+  	}
   	.cnt {
   		position: absolute;
   		bottom: 15px;
   		right: 22px;
+  		max-width: 50%;
+  	}
+  	.cnt2 {
+  		position: absolute;
+  		display: block;
+  		bottom: 13px;
+  		left: 18px;
   		max-width: 50%;
   	}
   	.cntOption {
@@ -87,6 +104,18 @@
   		padding: 0 10px;
   		border: 0;
   		text-align: center;
+  	}
+  	.optionPrice {
+  		position: absolute;
+  		bottom: 2px;
+  		right: 22px;
+  		margin-top: 10px;
+  		font-size: 13pt;
+  		font-weight: 600;
+  	}
+  	.optionTxt {
+  		font-size: 10pt;
+  		font-weight: 600;
   	}
   	.totalPrice {
   		overflow: hidden;
@@ -132,10 +161,10 @@
   </div>
   <div style="float:right; width:450px;">
   	<div>
-  		<p class="prd_brand"><a href="#">피지오겔&nbsp;<i class="ri-store-line"></i></a></p>
-  		<p class="prd_name">[더블기획] 피지오겔 DMT 페이셜 크림 100ml+100ml 증정 기획</p>
+  		<p class="prd_brand"><a href="#">${prdVO.subCatName}&nbsp;<i class="ri-store-line"></i></a></p>
+  		<p class="prd_name">${prdVO.prdName}</p>
   		<div class="price">
-  			<span class="price-1"><strike>59,000</strike><span>원</span></span>
+  			<span class="price-1"><strike>${prdVO.}</strike><span>원</span></span>
   			<span class="price-2"><strong>29,000</strong><span>원</span></span>
   		</div>
   		<div class="moreInfo">
@@ -146,28 +175,32 @@
 				</div>
   		</div>
   		<hr/>
-      <div class="form-group">
-        <form name="optionForm">
-          <select size="1" class="form-control" id="prdOption">
-            <option value="" disabled selected>상품옵션선택</option>
-            <option value="0:기본품목_${productVO.mainPrice}">기본품목</option>
-            <c:forEach var="vo" items="${optionVOS}">
-              <option value="${vo.opIdx}:${vo.optionName}_${vo.optionPrice}">${vo.optionName}</option>
-            </c:forEach>
-          </select>
-        </form>
-      </div>
   		
-  		<div class="cntBox">
-  			<div>구매수량</div>
-  			<div class="cnt">
-  				<span class="cntOption">
-	  				<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>
-	  				<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">
-	  				<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>
-  				</span>
-  			</div>
-  		</div>
+  		<c:if test="${fn: length(opVOS) > 0}">
+	      <div class="form-group">
+	        <form name="optionForm">
+	          <select size="1" class="form-control" id="prdOption">
+	            <option value="" disabled selected>상품옵션선택</option>
+	            <c:forEach var="opVO" items="${opVOS}">
+	              <option value="${opVO.opIdx}:${opVO.opName}_${opVO.opPrice}">${opVO.opName}</option>
+	            </c:forEach>
+	          </select>
+	        </form>
+	      </div>
+	      <div id="prdOptionSelect"></div>
+      </c:if>
+      <c:if test="${fn: length(opVOS) == 0}">
+	  		<div class="cntBox">
+	  			<div>구매수량</div>
+	  			<div class="cnt">
+	  				<span class="cntOption">
+		  				<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>
+		  				<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">
+		  				<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>
+	  				</span>
+	  			</div>
+	  		</div>
+  		</c:if>
   		
   		<div class="totalPrice">
   			<span style="float: left; font-size: 18px;">상품금액 합계</span>
@@ -198,32 +231,48 @@
 		 }
 	}
 	
+/* 		
+		<div class="cntBox2">
+			<div class="optionTxt">01.크림</div>
+			<div class="cnt2">
+				<span class="cntOption">
+  				<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>
+  				<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">
+  				<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>
+				</span>
+			</div>
+			<div class="optionPrice">29000원<span><a href=""><font size="5pt"><i class="ri-close-line"></i></font></a></span></div>
+		</div>
+		 */
+  let idxArray = new Array();	 
+		 
 	$("#prdOption").change(function() {
 		let prdOption = $(this).val();
-		let idx = prdOption.substring(0, prdOption.indexOf(":"));
-		let optionName = prdOption.substring(prdOption.indexOf(":")+1, prdOption.indexOf("_"));
-		let optionPrice = prdOption.substring(prdOption.indexOf("_")+1);
-		let comma = numberWithCommas(optionPrice);
+		let opIdx = prdOption.substring(0, prdOption.indexOf(":"));
+		let opName = prdOption.substring(prdOption.indexOf(":")+1, prdOption.indexOf("_"));
+		let opPrice = prdOption.substring(prdOption.indexOf("_")+1);
+		let comma = numberWithCommas(opPrice);
 		
-		if($('#layer'+idx).length == 0 && prdOption != "") {
-			idxArray[idx] = idx;
+		if($('#layer'+opIdx).length == 0 && prdOption != "") {
+			idxArray[opIdx] = opIdx;
 			
 			let str = '';
-			str += '<div class="cntBox">';
-			str += '<div class="layer row" id="layer"'+idx+'"><div class="col">'+optionName+'</div>';
-			str += '<div class="cnt">';
+			str += '<div class="cntBox2">';
+			str += '<div class="row optionTxt" id="layer"'+opIdx+'"><div class="col">'+opName+'</div>';
+			str += '<div class="cnt2">';
 			str += '<span class="cntOption">';
-			str += '<button class="btnCalc minus" onclick="numCalc('m', this)">수량 1감소</button>';
+			str += '<button class="btnCalc minus" onclick="numCalc(\'m\', this)">수량 1감소</button>';
 			str += '<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량">';
-			str += '<button class="btnCalc plus" onclick="numCalc('p', this)">수량 1증가</button>';
+			str += '<button class="btnCalc plus" onclick="numCalc(\'p\', this)">수량 1증가</button>';
 			str += '</span>';
-			str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove('+idx+')" value="삭제"/>';
+			str += '</div>';
+			str += '<div class="optionPrice">'+comma+'원';
+			str += '<a href="" style="vertical-align:middle;"><font size="5pt"><i class="ri-close-line"></i></font></a>';
 			str += '</div>';
 			str += '</div>';
-			
+			$("#prdOptionSelect").append(str);
 			
 		}
-			
 	});
 	
   // 천 단위마다 콤마를 표시해 주는 함수
