@@ -54,7 +54,7 @@ create table prdOption (
 	opName varchar(50) not null,
 	opPrice int not null default 0,
 	primary key (opIdx),
-	foreign key (opPrdIdx) references product(prdIdx)
+	foreign key (prdIdx) references product(prdIdx)
 );
 
 drop table product;
