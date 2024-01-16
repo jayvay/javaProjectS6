@@ -6,6 +6,13 @@
 .nav {
 	margin: 0px auto;
 }
+.w3-dropdown-content {
+	color: #1f1f1f;
+	padding:16px; 
+	width:700px; 
+	border:1px solid #99a1a8; 
+	box-shadow:none;
+}
 </style>
 
 <html>
@@ -14,8 +21,8 @@
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-padding-large w3-button" title="More">카테고리 <i class="fa fa-caret-down"></i></button>
-      <div class="w3-dropdown-content w3-bar-block w3-card-4" style="padding:10px; width:700px; border-radius:5px; border:1px solid gray; box-shadow:none;">
-      	<h5 style="margin:5px; text-align:center;"><b>카테고리</b></h5><hr/>   
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      	<h6 style="margin:0 15px; padding:0px; text-align:justify;"><b>카테고리</b></h6><hr/>   
       	<div class="row">
       		<div class="col w3-padding-large" style="border-right:1px solid lightgray;">
 			      <a href="${ctp}/store/goodsList" class="w3-bar-item w3-button w3-padding-small"><b>스킨케어 ></b></a>
