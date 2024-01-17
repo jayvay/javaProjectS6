@@ -95,12 +95,22 @@ div a, div a:hover {
   <div class="w3-bar w3-white w3-card" id="myNavbar">
 		<div class="text-right topMenu">
 		  <ul class="nav justify-content-end">
-		    <li class="nav-item">
-		      <a class="nav-link" href="${ctp}/member/join">회원가입</a>
-		    </li>
-		    <li class="nav-item">
-		      <a class="nav-link" href="${ctp}/member/login">로그인</a>
-		    </li>
+		  	<c:if test="${empty sLevel}">
+			    <li class="nav-item">
+			      <a class="nav-link" href="${ctp}/member/join">회원가입</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="${ctp}/member/login">로그인</a>
+			    </li>
+		  	</c:if>
+		  	<c:if test="${!empty sLevel}">
+			    <li class="nav-item">
+			      <a class="nav-link" href="${ctp}/member/logout">로그아웃</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="${ctp}/member/myPage">마이페이지</a>
+			    </li>
+		  	</c:if>
 		    <li class="nav-item">
 		      <a class="nav-link" href="#">장바구니</a>
 		    </li>

@@ -17,3 +17,5 @@ create table membership (
 	primary key(mIdx),
 	unique key(mid)
 );
+
+select * from membership where name = "드민씨" and email = "admin@naver.com";

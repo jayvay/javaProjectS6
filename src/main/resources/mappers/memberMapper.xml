@@ -9,4 +9,13 @@
 	<insert id="setMemberJoin">
 		insert into membership values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.address},#{vo.tel},#{vo.email},default,default,default,default,default);
 	</insert>
+	
+	<select id="getMemberIdListSearch" resultType="String">
+		select mid from membership where name = #{name} and email = #{email}; 
+	</select>
+	
+	<update id="setMemberPwdFindUpdate">
+		update membership set pwd = #{tempPwd} where mid = #{mid};
+	</update>
+	
 </mapper>
