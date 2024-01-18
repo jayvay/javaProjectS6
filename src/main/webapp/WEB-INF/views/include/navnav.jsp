@@ -76,7 +76,7 @@
       </div>
     </div>
     <a href="${ctp}/admin/adminMain" class="w3-bar-item w3-button w3-padding-large">관리자</a>
-    <a href="${ctp}/admin/admin2" class="w3-bar-item w3-button w3-padding-large w3-hide-small">관리자2</a>
+    <a href="${ctp}/admin/admin" class="w3-bar-item w3-button w3-padding-large w3-hide-small">관리자2</a>
     <a href="${ctp}/board/boardList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BOARD</a>
     <a href="${ctp}/pds/pdsList" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PDS</a>
 		<div class="w3-dropdown-hover w3-hide-small">

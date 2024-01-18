@@ -12,6 +12,11 @@ body, html {
   line-height: 1.8;
 }
 
+.w3-top {
+	position: fixed;
+	z-index: 999;
+}
+
 div a, div a:hover {
   color: black;
   text-decoration: none;

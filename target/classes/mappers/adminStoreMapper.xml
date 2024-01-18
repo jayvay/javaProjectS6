@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaProjectS6.dao.AdminStoreDAO">
+	
+	<select id="getMajorCategory" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select * from majorCategory order by majorCatCode desc;
+	</select>
+	
+	<select id="getSubCategory" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select s.*, m.majorCatName from subCategory s, majorCategory m where s.majorCatCode = m.majorCatCode order by subCatCode desc;
+	</select>
+	
+	
+</mapper>

@@ -11,7 +11,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMainGet() {
-		return "admin/adminMain";
+		return "admin2/adminMain";
 	}
 	
 	@RequestMapping(value = "/adminLeft", method = RequestMethod.GET)
@@ -19,58 +19,58 @@ public class AdminController {
 		return "admin/adminLeft";
 	}
 	
-	@RequestMapping(value = "/admin2", method = RequestMethod.GET)
-	public String admin2(Model model) {
-		model.addAttribute("adminFlag", "admin2");
-		return "admin2/admin2";
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String admin(Model model) {
+		model.addAttribute("adminFlag", "admin");
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/login2", method = RequestMethod.GET)
 	public String login2(Model model) {
 		model.addAttribute("adminFlag", "login");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/register2", method = RequestMethod.GET)
 	public String register2(Model model) {
 		model.addAttribute("adminFlag", "register");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/password2", method = RequestMethod.GET)
 	public String password2(Model model) {
 		model.addAttribute("adminFlag", "password");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/charts", method = RequestMethod.GET)
 	public String charts(Model model) {
 		model.addAttribute("adminFlag", "charts");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/tables", method = RequestMethod.GET)
 	public String tables(Model model) {
 		model.addAttribute("adminFlag", "tables");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/401", method = RequestMethod.GET)
 	public String a401Get(Model model) {
 		model.addAttribute("adminFlag", "401");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/404", method = RequestMethod.GET)
 	public String a404Get(Model model) {
 		model.addAttribute("adminFlag", "404");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 	
 	@RequestMapping(value = "/500", method = RequestMethod.GET)
 	public String a500Get(Model model) {
 		model.addAttribute("adminFlag", "500");
-		return "admin2/admin2";
+		return "admin/admin";
 	}
 }
  
