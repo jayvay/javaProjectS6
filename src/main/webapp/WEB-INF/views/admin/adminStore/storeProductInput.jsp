@@ -26,7 +26,7 @@
     // 상품 등록하기전에 체크후 전송...
     function fCheck() {
     	let majorCatCode = myform.majorCatCode.value;
-    	let middleCatCode = myform.middleCatCode.value;
+    	let subCatCode = myform.subCatCode.value;
     	let categorySubCode = myform.categorySubCode.value;
     	let productName = myform.productName.value;
 			let mainPrice = myform.mainPrice.value;
@@ -73,45 +73,20 @@
 			}
     }
     
-    // 상품 입력창에서 대분류 선택(onChange)시 중분류를 가져와서 중분류 선택박스에 뿌리기
-    function categoryMainChange() {
+    // 대분류 선택시 소분류 가져오기
+    function categorySubChange() {
     	var majorCatCode = myform.majorCatCode.value;
 			$.ajax({
 				type : "post",
-				url  : "${ctp}/dbShop/categoryMiddleName",
+				url  : "${ctp}/adminStore/major_subCatName",
 				data : {majorCatCode : majorCatCode},
-				success:function(data) {
-					var str = "";
-					str += "<option value=''>중분류</option>";
-					for(var i=0; i<data.length; i++) {
-						str += "<option value='"+data[i].middleCatCode+"'>"+data[i].categoryMiddleName+"</option>";
-					}
-					$("#middleCatCode").html(str);
-				},
-				error : function() {
-					alert("전송오류!");
-				}
-			});
-  	}
-    
-    // 중분류 선택시 소분류항목 가져오기
-    function categoryMiddleChange() {
-    	var majorCatCode = myform.majorCatCode.value;
-    	var middleCatCode = myform.middleCatCode.value;
-			$.ajax({
-				type : "post",
-				url  : "${ctp}/dbShop/categorySubName",
-				data : {
-					majorCatCode : majorCatCode,
-					middleCatCode : middleCatCode
-				},
-				success:function(data) {
+				success:function(res) {
 					var str = "";
 					str += "<option value=''>소분류</option>";
-					for(var i=0; i<data.length; i++) {
-						str += "<option value='"+data[i].categorySubCode+"'>"+data[i].categorySubName+"</option>";
+					for(var i=0; i<res.length; i++) {
+						str += "<option value='"+res[i].subCatCode+"'>"+res[i].subCatName+"</option>";
 					}
-					$("#categorySubCode").html(str);
+					$("#subCatCode").html(str);
 				},
 				error : function() {
 					alert("전송오류!");
@@ -128,7 +103,7 @@
     <form name="myform" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="majorCatCode">대분류</label>
-        <select id="majorCatCode" name="majorCatCode" class="form-control sel" onchange="categoryMainChange()">
+        <select id="majorCatCode" name="majorCatCode" class="form-control sel" onchange="categorySubChange()">
           <option value="">대분류를 선택하세요</option>
           <c:forEach var="majorCatVO" items="${majorCatVOS}">
           	<option value="${majorCatVO.majorCatCode}">${majorCatVO.majorCatName}</option>
@@ -136,10 +111,10 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="middleCatCode">중분류</label>
-        <select id="middleCatCode" name="middleCatCode" class="form-control sel" onchange="categoryMiddleChange()">
-          <option value="">중분류명</option>
-		  	  <c:forEach var="middleCatVO" items="${middleCatVOS}">
+        <label for="subCatCode">소분류</label>
+        <select id="subCatCode" name="subCatCode" class="form-control sel" >
+          <option value="">소분류를 선택하세요</option>
+		  	  <c:forEach var="subCatVO" items="${subCatVOS}">
 		  	    <option value=""></option>
 		  	  </c:forEach>
         </select>
@@ -165,7 +140,7 @@
       	<textarea rows="5" name="productContent" id="CKEDITOR" class="form-control" required></textarea>
       </div>
       <script>
-		    CKEDITOR.replace("content",{
+		    CKEDITOR.replace("productContent",{
 		    	uploadUrl:"${ctp}/store/imageUpload",
 		    	filebrowserUploadUrl: "${ctp}/store/imageUpload",
 		    	height:460

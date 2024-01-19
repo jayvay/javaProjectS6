@@ -88,51 +88,26 @@
     	}
     }
     
-    // 상품 입력창에서 대분류 선택(Change)시 중분류가져와서 중분류 선택박스에 뿌리기
-    function categoryMainChange() {
-    	var categoryMainCode = myform.categoryMainCode.value;
+    // 상품 입력창에서 대분류 선택(Change)시 소분류 가져오기
+    function subCatChange() {
+    	var majorCatCode = myform.majorCatCode.value;
 			$.ajax({
 				type : "post",
-				url  : "${ctp}/dbShop/categoryMiddleName",
-				data : {categoryMainCode : categoryMainCode},
-				success:function(data) {
-					var str = "";
-					str += "<option value=''>중분류</option>";
-					for(var i=0; i<data.length; i++) {
-						str += "<option value='"+data[i].categoryMiddleCode+"'>"+data[i].categoryMiddleName+"</option>";
-					}
-					$("#categoryMiddleCode").html(str);
-				},
-				error : function() {
-					alert("전송오류!");
-				}
-			});
-  	}
-    
-    // 상품 입력창에서 중분류 선택(Change)시 소분류가져와서 소분류 선택박스에 뿌리기
-    function categoryMiddleChange() {
-    	var categoryMainCode = myform.categoryMainCode.value;
-    	var categoryMiddleCode = myform.categoryMiddleCode.value;
-			$.ajax({
-				type : "post",
-				url  : "${ctp}/dbShop/categorySubName",
-				data : {
-					categoryMainCode : categoryMainCode,
-					categoryMiddleCode : categoryMiddleCode
-				},
-				success:function(data) {
+				url  : "${ctp}/adminStore/major_subCatName",
+				data : {majorCatCode : majorCatCode},
+				success:function(res) {
 					var str = "";
 					str += "<option value=''>소분류</option>";
-					for(var i=0; i<data.length; i++) {
-						str += "<option value='"+data[i].categorySubCode+"'>"+data[i].categorySubName+"</option>";
+					for(var i=0; i<res.length; i++) {
+						str += "<option value='"+res[i].subCatCode+"'>"+res[i].subCatName+"</option>";	//240119_2140 아직 테스트 안 함!!
 					}
-					$("#categorySubCode").html(str);
+					$("#subCatCode").html(str);
 				},
 				error : function() {
 					alert("전송오류!");
 				}
 			});
-  	}    
+		}
     
     // 상품 입력창에서 소분류 선택(Change)시 해당 상품들을 가져와서 품목 선택박스에 뿌리기
     function categorySubChange() {
@@ -251,7 +226,7 @@
   <form name="myform" method="post">
     <div class="form-group">
       <label for="majorCatCode">대분류</label>
-      <select id="majorCatCode" name="majorCatCode" class="form-control sel" onchange="categoryMainChange()">
+      <select id="majorCatCode" name="majorCatCode" class="form-control sel" onchange="subCatChange()">
         <option value="">대분류를 선택하세요</option>
         <c:forEach var="majorCatVO" items="${majorCatVOS}">
         	<option value="${majorCatVO.majorCatCode}">${majorCatVO.majorCatName}</option>
@@ -259,11 +234,11 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="middleCatCode">중분류</label>
-      <select id="middleCatCode" name="middleCatCode" class="form-control sel" onchange="categoryMiddleChange()">
-     		<option value="">중분류를 선택하세요</option>
-        <c:forEach var="middleCatVO" items="${middleCatVOS}">
-        	<option value="${middleCatVO.majorCatCode}">${middleCatVO.majorCatName}</option>
+      <label for="subCatCode">소분류</label>
+      <select id="subCatCode" name="subCatCode" class="form-control sel" >
+     		<option value="">소분류를 선택하세요</option>
+        <c:forEach var="subCatVO" items="${subCatVOS}">
+        	<option value="${subCatVO.subCatCode}">${subCatVO.subCatName}</option>
         </c:forEach>
       </select>
     </div>

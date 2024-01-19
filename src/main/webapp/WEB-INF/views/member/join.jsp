@@ -65,7 +65,7 @@
 			//let regMid = /^[a-z0-9_]{4,15}$/; 영어/숫자/언더바 조합의 4~15자리
 			let regMid = /^(?=.*[a-z])[a-z0-9_]{4,15}$/; // 영어/숫자/언더바 조합의 4~15자리
 			let regPwd = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/; // 영어/숫자/특수문자 각 최소 1자 이상 조합의 6~15자리
-			let regName = /^[a-zA-Z가-힣]{2,20}$/; //영어 한글로 이루어진 2~20자
+			let regName = /^[a-zA-Z가-힣]{2,15}$/; //영어/한글 2~15자
 			let regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 			let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
 			
@@ -219,27 +219,27 @@
 	  			<tr>
 				  	<th><label for="mid">아이디</label></th>
 						<td>
-							<input type="text" name="mid" id="mid" placeholder="영문 소문자/숫자 조합 4~16자" required autofocus onkeyup="idCheck()" class="form-control"/>
+							<input type="text" name="mid" id="mid" placeholder="영문 소문자/숫자 조합 4~15자" minlength="4" maxlength="15" required autofocus onkeyup="idCheck()" class="form-control"/>
 							<div id="midRegCheck" class="inputCheck"></div>
 						</td>
 	  			</tr>
 	  			<tr>
 				  	<th><label for="pwd">비밀번호</label></th>
 						<td>
-							<input type="password" name="pwd" id="pwd" placeholder="영문/숫자/특수문자 각 최소 1자 이상 조합 6~15자" onkeyup="pwdCheck()" required class="form-control"/>
+							<input type="password" name="pwd" id="pwd" placeholder="영문/숫자/특수문자 각 최소 1자 이상 조합 6~15자" maxlength="15" onkeyup="pwdCheck()" required class="form-control"/>
 							<div id="pwdRegCheck" class="inputCheck"></div>
 						</td>
 	  			</tr>
 	  			<tr>
 				  	<th><label for="pwdConfirm">비밀번호 확인</label></th>
 						<td>
-							<input type="password" name="pwdConfirm" id="pwdConfirm" placeholder="비밀번호를 다시 입력해주세요" onkeyup="pwdCheck()" required class="form-control"/>
+							<input type="password" name="pwdConfirm" id="pwdConfirm" placeholder="비밀번호를 다시 입력해주세요" maxlength="15" onkeyup="pwdCheck()" required class="form-control"/>
 							<div id="pwdConfirmRegCheck" class="inputCheck"></div>
 						</td>
 	  			</tr>
 	  			<tr>
 				  	<th><label for="name">이름</label></th>
-						<td><input type="text" name="name" id="name" placeholder="한글/영문 2~20자" required class="form-control"/></td>
+						<td><input type="text" name="name" id="name" placeholder="한글/영문 2~15자" maxlength="15" required class="form-control"/></td>
 	  			</tr>
 	  			<tr>
 				  	<th><label for="address">주소</label></th>

@@ -17,11 +17,21 @@
 		  background-color: #cae8ca;
 		  border: 2px solid #4CAF50;
 		}
+
+		input[type=text], .sel {
+			border-radius: 0px;
+			/* background-color: #eff8db; */
+		}
+		
 		.btn {
-			width: 70px;
-			height: 80px;
 			border-radius: 1px;
 		}
+		
+		.addBtn {
+			width: 70px;
+			height: 80px;
+		}
+		
   </style>
   <script>
   	'use strict';
@@ -37,7 +47,7 @@
 			
 			$.ajax({
 				type : "post",
-				url : "${ctp}/adminStore/storeMajorCatInput",
+				url : "${ctp}/adminStore/storeCategory/major/input",
 				data : {
 					majorCatCode : majorCatCode,
 					majorCatName : majorCatName
@@ -56,17 +66,17 @@
 		}
   	
   	function subCategoryCheck() {
-			let subCatCode = subCatForm.subCatCode.value.toUpperCase();
+  		let majorCatCode = subCatForm.sub_MajorCatCode.value;
+			let subCatCode = subCatForm.subCatCode.value;
 			let subCatName = subCatForm.subCatName.value;
 			if(subCatCode.trim() == "" || subCatName.trim() == "") {
-				alert("대분류 코드와 대분류명을 입력해 주세요.");
-				subCatForm.subCatCode.focus();
+				alert("소분류 코드와 소분류명을 입력해 주세요.");
 				return false;
 			}
 			
 			$.ajax({
 				type : "post",
-				url : "${ctp}/adminStore/storeSubCatInput",
+				url : "${ctp}/adminStore/storeCategory/sub/input",
 				data : {
 					majorCatCode : majorCatCode,
 					subCatCode : subCatCode,
@@ -86,19 +96,22 @@
 		}
   	
     function majorCategoryDelete(majorCatCode) {
-    	let ans = confirm("대분류 카테고리를 삭제하시겠습니까?");
+    	let ans = confirm("해당 대분류 카테고리의 하위 카테고리 및 상품이 모두 삭제됩니다. 그래도 카테고리를 삭제하시겠습니까?");
     	if(!ans) return false;
     	
     	$.ajax({
     		type : "post",
-    		url  : "${ctp}/dbShop/storeMajorCatDelete",
-    		data : {majorCatCode : majorCatCode},
+    		url  : "${ctp}/adminStore/storeCategory/major/delete",
+    		data : {
+					majorCatCode : majorCatCode,
+					majorCatName : majorCatName
+				},
     		success:function(res) {
     			if(res == "0") {
-    				alert("소속된 상품이 존재합니다. 상품을 먼저 삭제해 주세요.");
+    				alert("대분류 카테고리 삭제 실패, 다시 시도해 주세요.");
     			}
     			else {
-    				alert("대분류 카테고리가 삭제되었습니다.");	//240118_2238 소분류를 같이 삭제할지...아..정말..생각할 거 많네
+    				alert("대분류 카테고리가 삭제되었습니다.");
     				location.reload();
     			}
     		},
@@ -109,16 +122,20 @@
     }
     
     function subCategoryDelete(categoryMiddleCode) {
-    	let ans = confirm("중분류항목을 삭제하시겠습니까?");
+    	let ans = confirm("해당 소분류 카테고리에 소속된 상품이 모두 삭제됩니다. 그래도 카테고리를 삭제하시겠습니까?");
     	if(!ans) return false;
     	
     	$.ajax({
     		type : "post",
-    		url  : "${ctp}/dbShop/storeSubCatDelete",
-    		data : {subCatCode : subCatCode},
+    		url  : "${ctp}/adminStore/storeCategory/sub/delete",
+    		data : {
+					majorCatCode : majorCatCode,
+					subCatCode : subCatCode,
+					subCatName : subCatName
+				},
     		success:function(res) {
     			if(res == "0") {
-    				alert("소속된 소분류가 존재합니다. 소분류를 먼저 삭제해 주세요.");
+    				alert("소분류 카테고리 삭제 실패, 다시 시도해 주세요.");
     			}
     			else {
     				alert("소분류 카테고리가 삭제되었습니다.");
@@ -143,9 +160,9 @@
 	  <form name="majorCatForm">
 	  	<h4>대분류 관리</h4>
 	  	<div class="row text-center">
-			 	<div class="col">	
-			  	<table class="table table-bordered">
-			  		<tr>
+			 	<div class="col m-2">	
+			  	<table class="table table-hover">
+			  		<tr class="table-dark">
 				  		<th>대분류코드</th>
 				  		<th>대분류명</th>
 				  		<th>비고</th> 
@@ -167,7 +184,7 @@
 			  		<tr>
 			  			<td><label for="majorCatCode">대분류코드</label></td>
 			  			<td><input type="text" name="majorCatCode" size="1" maxlength="1" class="form-control"/></td>
-			  			<td rowspan="3"><button onclick="majorCategoryCheck()" class="btn btn-secondary">추가</button></td>
+			  			<td rowspan="3"><button onclick="majorCategoryCheck()" class="btn btn-secondary addBtn">추가</button></td>
 			  		</tr>
 			  		<tr>
 			  			<td><label for="majorCatName">대분류명</label></td>
@@ -177,13 +194,13 @@
 			 	</div>
 	  	</div>
 	  </form>
-	  <hr/>
+	  <hr style="margin: 40px 0px;"/>
 	  <form name="subCatForm">
 	  	<h4>소분류 관리</h4>
 	  	<div class="row text-center">
-			 	<div class="col">	
-			  	<table class="table table-bordered">
-			  		<tr>
+			 	<div class="col m-2">	
+			  	<table class="table table-hover">
+			  		<tr class="table-dark">
 				  		<th>소분류코드</th>
 				  		<th>소분류명</th>
 				  		<th>비고</th> 
@@ -203,9 +220,20 @@
 			  			<td><h5>소분류 등록</h5></td>
 			  		</tr>
 			  		<tr>
+			  			<td>대분류선택</td>
+			  			<td>
+			  				<select name="sub_MajorCatCode" class="form-control sel">
+						      <option value="대분류명">대분류명</option>
+						      <c:forEach var="majorCatVO" items="${majorCatVOS}">
+						        <option value="${majorCatVO.majorCatCode}">${majorCatVO.majorCatName}</option>
+						      </c:forEach>
+						    </select>
+			  			</td>
+			  		</tr>
+			  		<tr>
 			  			<td><label for="subCatCode">소분류코드</label></td>
-			  			<td><input type="text" name="subCatCode" size="1" maxlength="1" class="form-control"/></td>
-			  			<td rowspan="3"><button onclick="subCategoryCheck()" class="btn btn-secondary">추가</button></td>
+			  			<td><input type="text" name="subCatCode" size="3" maxlength="3" class="form-control"/></td>
+			  			<td rowspan="3"><button onclick="subCategoryCheck()" class="btn btn-secondary addBtn">추가</button></td>
 			  		</tr>
 			  		<tr>
 			  			<td><label for="subCatName">소분류명</label></td>

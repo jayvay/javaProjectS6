@@ -3,12 +3,65 @@
 <mapper namespace="com.spring.javaProjectS6.dao.AdminStoreDAO">
 	
 	<select id="getMajorCategory" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select * from majorCategory order by majorCatCode desc;
+		select * from majorCategory order by majorCatCode;
 	</select>
 	
 	<select id="getSubCategory" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select s.*, m.majorCatName from subCategory s, majorCategory m where s.majorCatCode = m.majorCatCode order by subCatCode desc;
+		select s.*, m.majorCatName from subCategory s, majorCategory m where s.majorCatCode = m.majorCatCode order by subCatCode;
 	</select>
+<!-- 	
+	<select id="getMajorCatSearch" resultType="String">
+		select * from majorCategory where majorCatCode = #{majorCatCode} or majorCatName = #{majorCatName};
+	</select>
+	
+	<insert id="setMajorCatInput">
+		insert into majorCategory values (#{majorCatCode}, #{majorCatName});
+	</insert>
+
+	<select id="getSubCatSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select * from subCategory where majorCatCode = #{vo.majorCatCode} and (subCatCode = #{vo.subCatCode} or subCatName = #{vo.subCatName});
+	</select>
+	
+	<insert id="setSubCatInput">
+		insert into subCategory values (#{vo.majorCatCode}, #{vo.subCatCode}, #{vo.subCatName});
+	</insert>
+-->
+	
+	<select id="getCategorySearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		<if test='category == "major"'>
+			select * from majorCategory where majorCatCode = #{vo.majorCatCode} or majorCatName = #{vo.majorCatName};
+		</if>
+		<if test='category == "sub"'>
+			select * from subCategory where majorCatCode = #{vo.majorCatCode} and (subCatCode = #{vo.subCatCode} or subCatName = #{vo.subCatName}); 
+		</if>
+	</select>
+
+	<select id="getUnderCatSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select * from subCategory where majorCatCode = #{majorCatCode};
+	</select>
+
+	<insert id="setCategoryInput">
+		<if test='category == "major"'>
+			insert into majorCategory values (#{vo.majorCatCode}, #{vo.majorCatName});
+		</if>
+		<if test='category == "sub"'>
+			insert into subCategory values (#{vo.majorCatCode}, #{vo.subCatCode}, #{vo.subCatName});
+		</if>
+	</insert>
+	
+	<delete id="setCategoryDelete">
+		<if test='category == "major"'>
+			delete prdOption from prdOption join product p on p.prdIdx = prdOption.prdIdx where p.majorCatCode = #{vo.majorCatCode};
+			delete from product where majorCatCode = #{vo.majorCatCode};
+			delete from subCategory where majorCatCode = #{vo.majorCatCode};
+			delete from majorCategory where majorCatCode = #{vo.majorCatCode} and majorCatName = #{vo.majorCatName};
+		</if>
+		<if test='category == "sub"'>
+			delete prdOption from prdOption join product p on p.prdIdx = prdOption.prdIdx where p.majorCatCode = #{vo.majorCatCode} and p.subCatCode = #{vo.subCatCode};
+			delete from product where majorCatCode = #{vo.majorCatCode} and subCatCode = #{vo.subCatCode};
+			delete from subCategory where majorCatCode = #{vo.majorCatCode} and subCatCode = #{vo.subCatCode} and subCatName = #{vo.subCatName};
+		</if>
+	</delete>
 	
 	
 </mapper>
