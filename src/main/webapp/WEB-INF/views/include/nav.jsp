@@ -117,7 +117,7 @@ div a, div a:hover {
 			    </li>
 		  	</c:if>
 		    <li class="nav-item">
-		      <a class="nav-link" href="#">장바구니</a>
+		      <a class="nav-link" href="${ctp}/store/cart">장바구니</a>
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link" href="#">주문배송</a>

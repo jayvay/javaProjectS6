@@ -2,6 +2,8 @@ package com.spring.javaProjectS6.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,17 @@ public class StoreController {
 		return "store/goodsDetail";
 	}
 	
-	
+//	@RequestMapping(value = "/cart", method = RequestMethod.GET)
+//	public String cartGet(HttpSession session, CartVO vo, Model model) {
+//		String mid = (String) session.getAttribute("sMid");
+//		List<CartVO> vos = storeService.getCartList(mid);
+//		
+//		if(vos.size() == 0) {
+//			return "redirect:/message/cartEmpty";
+//		}
+//		
+//		model.addAttribute("cartListVOS", vos);
+//		return "store/cart";
+//	}
 
 }
