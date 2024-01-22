@@ -35,6 +35,20 @@ public class MessageController {
 			model.addAttribute("msg", mid + " 님, 로그아웃 되었습니다.");
 			model.addAttribute("url", "");
 		}
+
+		//store
+		else if(msgFlag.equals("cartEmpty")) {
+			model.addAttribute("msg", "장바구니가 비었습니다.");
+			model.addAttribute("url", "");
+		}
+		else if(msgFlag.equals("productInputOk")) {
+			model.addAttribute("msg", "상품이 정상적으로 등록되었습니다.");
+			model.addAttribute("url", "admin/adminStore/storeProductList");
+		}
+		else if(msgFlag.equals("productInputNo")) {
+			model.addAttribute("msg", "상품 등록 실패, 다시 시도하세요.");
+			model.addAttribute("url", "admin/adminStore/storeProductInput");
+		}
 		
 		
 		return "include/message";

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaProjectS6.dao.StoreDAO;
+import com.spring.javaProjectS6.vo.CartVO;
 import com.spring.javaProjectS6.vo.ProductVO;
 
 @Service
@@ -22,5 +23,10 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<ProductVO> getPrdOptionSearch(int prdIdx) {
 		return storeDAO.getPrdOptionSearch(prdIdx);
+	}
+
+	@Override
+	public List<CartVO> getCartList(String mid) {
+		return storeDAO.getCartList(mid);
 	}
 }

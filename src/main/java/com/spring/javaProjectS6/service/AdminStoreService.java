@@ -2,6 +2,8 @@ package com.spring.javaProjectS6.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.javaProjectS6.vo.ProductVO;
 
 public interface AdminStoreService {
@@ -25,5 +27,7 @@ public interface AdminStoreService {
 	public int setCategoryDelete(String category, ProductVO vo);
 
 	public List<ProductVO> getUnderCatSearch(String majorCatCode);
+
+	public int setProductInput(MultipartFile file, ProductVO vo);
 
 }

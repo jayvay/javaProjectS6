@@ -1,6 +1,17 @@
 package com.spring.javaProjectS6.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS6.service.AdminStoreService;
 import com.spring.javaProjectS6.vo.ProductVO;
@@ -84,9 +97,43 @@ public class AdminStoreController {
 		return adminStoreService.getUnderCatSearch(majorCatCode);
 	}
 	
-	@RequestMapping(value = "/storeProductOptionInput", method = RequestMethod.GET)	//240119_2140 하..오늘은..여기까지..
-	public String storeProductOptionInput(Model model) {
+	//관리자 상품 등록시 ckeditor 에 사진 첨부할 경우 dbShop 폴더에 저장, 저장한 파일을 브라우저 textarea 상자에 보여준다
+	@ResponseBody
+	@RequestMapping("/detailImgUpload")
+	public void detailImgUploadGet(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) throws IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
 		
+		String originalFileName = upload.getOriginalFilename();
+		System.out.println("originalFileName:"+originalFileName);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+		originalFileName = sdf.format(date) + "_" + originalFileName;
+		
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/store/");
+		byte[] bytes = upload.getBytes();
+		OutputStream fos = new FileOutputStream(new File(uploadPath + originalFileName));
+		fos.write(bytes);
+		
+		//사진 미리보기
+		PrintWriter out = response.getWriter();
+		String fileUrl = request.getContextPath() + "/data/store/" + originalFileName;
+		out.println("{\"originalFilename\":\""+originalFileName+"\",\"uploaded\":1,\"url\":\""+fileUrl+"\"}");
+		
+		out.flush();
+		fos.close();
+	}
+	
+	@RequestMapping(value = "/storeProductInput", method = RequestMethod.POST)
+	public String storeProductInputPost(MultipartFile file, ProductVO vo) {
+		int res = adminStoreService.setProductInput(file, vo);
+		
+		if(res != 0) return "redirect:/message/productInputOk";
+		return "redirect:/message/productInputNo";
+	}
+	
+	@RequestMapping(value = "/storeProductOptionInput", method = RequestMethod.GET)
+	public String storeProductOptionInput(Model model) {
 		model.addAttribute("adminFlag", "storeProductOptionInput");
 		return "admin/admin";
 	}

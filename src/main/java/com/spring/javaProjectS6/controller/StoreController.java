@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.javaProjectS6.service.StoreService;
+import com.spring.javaProjectS6.vo.CartVO;
 import com.spring.javaProjectS6.vo.ProductVO;
 
 @Controller
@@ -35,17 +36,17 @@ public class StoreController {
 		return "store/goodsDetail";
 	}
 	
-//	@RequestMapping(value = "/cart", method = RequestMethod.GET)
-//	public String cartGet(HttpSession session, CartVO vo, Model model) {
-//		String mid = (String) session.getAttribute("sMid");
-//		List<CartVO> vos = storeService.getCartList(mid);
-//		
-//		if(vos.size() == 0) {
-//			return "redirect:/message/cartEmpty";
-//		}
-//		
-//		model.addAttribute("cartListVOS", vos);
-//		return "store/cart";
-//	}
+	@RequestMapping(value = "/cart", method = RequestMethod.GET)
+	public String cartGet(HttpSession session, CartVO vo, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		List<CartVO> cartVOS = storeService.getCartList(mid);
+		
+		if(cartVOS.size() == 0) {
+			return "redirect:/message/cartEmpty";
+		}
+		
+		model.addAttribute("cartVOS", cartVOS);
+		return "store/cart";
+	}
 
 }

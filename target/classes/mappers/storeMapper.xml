@@ -9,5 +9,8 @@
 		select * from prdOption where opPrdIdx = #{prdIdx} order by opIdx;
 	</select>
 	
+	<select id="getCartList" resultType="com.spring.javaProjectS6.vo.CartVO">
+		select * from storeCart where mid = #{mid} order by cIdx;
+	</select>
 	
 </mapper>

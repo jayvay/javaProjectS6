@@ -27,21 +27,28 @@
     function fCheck() {
     	let majorCatCode = myform.majorCatCode.value;
     	let subCatCode = myform.subCatCode.value;
-    	let categorySubCode = myform.categorySubCode.value;
-    	let productName = myform.productName.value;
-			let mainPrice = myform.mainPrice.value;
-			let detail = myform.detail.value;
+    	let prdBrandName = myform.prdBrandName.value;
+    	let prdName = myform.prdName.value;
+			let prdPrice = myform.prdPrice.value;
 			let file = myform.file.value;	
 			let ext = file.substring(file.lastIndexOf(".")+1);
 			let uExt = ext.toUpperCase();
 			let regExpPrice = /^[0-9|_]*$/;
 			
-			if(categorySubCode == "") {
-				alert("상품 소분류(세분류)를 입력하세요!");
+			if(majorCatCode == "") {
+				alert("상품 대분류를 입력하세요!");
 				return false;
 			}
-			else if(product == "") {
-				alert("상품명(모델명)을 입력하세요!");
+			else if(subCatCode == "") {
+				alert("상품 소분류를 입력하세요!");
+				return false;
+			}
+			else if(prdBrandName == "") {
+				alert("브랜드명을 입력하세요!");
+				return false;
+			}
+			else if(prdName == "") {
+				alert("상품명을 입력하세요!");
 				return false;
 			}
 			else if(file == "") {
@@ -52,12 +59,8 @@
 				alert("업로드 가능한 파일이 아닙니다.");
 				return false;
 			}
-			else if(mainPrice == "" || !regExpPrice.test(mainPrice)) {
+			else if(prdPrice == "" || !regExpPrice.test(prdPrice)) {
 				alert("상품금액은 숫자로 입력하세요.");
-				return false;
-			}
-			else if(detail == "") {
-				alert("상품의 초기 설명을 입력하세요");
 				return false;
 			}
 			else if(document.getElementById("file").value != "") {
@@ -120,29 +123,29 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="productCode">상품모델명</label>
-        <input type="text" name="productCode" id="productCode" class="form-control" placeholder="상품 모델명을 입력하세요" required />
+        <label for="prdBrandName">브랜드명</label>
+        <input type="text" name="prdBrandName" id="prdBrandName" class="form-control" placeholder="브랜드명을 입력하세요" required />
       </div>
       <div class="form-group">
         <label for="file">메인이미지 (업로드 가능파일:jpg, jpeg, gif, png)</label>
         <input type="file" name="file" id="file" class="form-control-file border" accept=".jpg,.gif,.png,.jpeg" required />
       </div>
       <div class="form-group">
-      	<label for="productPrice">상품가격</label>
-      	<input type="text" name="productPrice" id="productPrice" class="form-control" required />
+      	<label for="prdPrice">상품가격</label>
+      	<input type="text" name="prdPrice" id="prdPrice" class="form-control" required />
       </div>
       <div class="form-group">
-      	<label for="productName">상품명</label>
-      	<input type="text" name="productName" id="productName" class="form-control" required />
+      	<label for="prdName">상품명</label>
+      	<input type="text" name="prdName" id="prdName" class="form-control" required />
       </div>
       <div class="form-group">
-      	<label for="productContent">상품상세설명</label>
-      	<textarea rows="5" name="productContent" id="CKEDITOR" class="form-control" required></textarea>
+      	<label for="prdContent">상품상세설명</label>
+      	<textarea rows="5" name="prdContent" id="CKEDITOR" class="form-control" required></textarea>
       </div>
       <script>
-		    CKEDITOR.replace("productContent",{
-		    	uploadUrl:"${ctp}/store/imageUpload",
-		    	filebrowserUploadUrl: "${ctp}/store/imageUpload",
+		    CKEDITOR.replace("prdContent",{
+		    	uploadUrl:"${ctp}/adminStore/detailImgUpload",
+		    	filebrowserUploadUrl: "${ctp}/adminStore/detailImgUpload",
 		    	height:460
 		    });
 		  </script>

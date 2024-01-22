@@ -28,4 +28,9 @@ public interface AdminStoreDAO {
 
 	public List<ProductVO> getUnderCatSearch(@Param("majorCatCode") String majorCatCode);
 
+	public ProductVO getProductMaxIdx();
+
+	public int setProductInput(@Param("vo") ProductVO vo);
+
+
 }

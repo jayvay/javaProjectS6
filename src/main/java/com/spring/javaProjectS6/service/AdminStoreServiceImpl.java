@@ -1,10 +1,22 @@
 package com.spring.javaProjectS6.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS6.dao.AdminStoreDAO;
 import com.spring.javaProjectS6.vo.ProductVO;
@@ -66,6 +78,102 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 	public List<ProductVO> getUnderCatSearch(String majorCatCode) {
 		return adminStoreDAO.getUnderCatSearch(majorCatCode);
 	}
+
+	@Override
+	public int setProductInput(MultipartFile file, ProductVO vo) {
+		int res = 0;
+		
+		try {
+			//메인이미지
+			String originalFileName = file.getOriginalFilename();
+			if(originalFileName != null && originalFileName != "") {
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+				String serverFileName = sdf.format(date) + "_" + originalFileName;
+				
+				//이미지를 서버 파일 시스템에 업로드 하는 메소드 호출
+				writeFile(file, serverFileName, "product");
+				vo.setPrdFSName(serverFileName);
+			}
+			else {
+				return res;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//상세이미지
+		String prdContent = vo.getPrdContent();
+		if(prdContent.indexOf("src=\"/") == -1) return 0;
+		
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/store/");
+		
+		int position = 31;
+		String nextDetailImgFile = prdContent.substring(prdContent.indexOf("src=\"/") + position);
+		boolean sw = true;
+		
+		while(sw) {
+			String detailImgFileName = nextDetailImgFile.substring(0, nextDetailImgFile.indexOf("\""));
+			String copyFilePath = "";
+			String originalFilePath = uploadPath + detailImgFileName;
+			
+			copyFilePath = uploadPath + "product/" + detailImgFileName;
+			
+			copyFileCheck(originalFilePath, copyFilePath);
+			
+			if(nextDetailImgFile.indexOf("src=\"/") == -1) sw = false;
+			else nextDetailImgFile = nextDetailImgFile.substring(nextDetailImgFile.indexOf("src=\"/") + position);
+		}
+		
+		vo.setPrdContent(vo.getPrdContent().replace("/data/store/", "/data/store/product/"));
+		
+		int maxIdx = 1;
+		ProductVO maxVO = adminStoreDAO.getProductMaxIdx();
+		if(maxVO != null) maxIdx = maxVO.getPrdIdx() + 1;
+		
+		vo.setPrdIdx(maxIdx);
+		vo.setPrdCode(vo.getMajorCatCode() + vo.getSubCatCode() + maxIdx);
+		//상품 등록
+		res = adminStoreDAO.setProductInput(vo);
+		
+		return res;
+	}
 	
+	//메인이미지 서버에 저장
+	private void writeFile(MultipartFile fileName, String serverFileName, String flag) throws IOException {
+		byte[] bytes = fileName.getBytes();
+		
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String serverSavePath = "";
+		if(flag.equals("product")) serverSavePath = request.getSession().getServletContext().getRealPath("/resources/data/store/product/");
+		
+		FileOutputStream fos = new FileOutputStream(serverSavePath + serverFileName);
+		fos.write(bytes);
+		fos.close();
+	}
 	
+	//서버에 저장된 상세이미지 복사해서 product 서버 폴더에 저장하기 위해서 복사된 이미지가 있는지 확인
+	private void copyFileCheck(String originalFilePath, String copyFilePath) {
+		File originalFile = new File(originalFilePath);
+		File copyFile = new File(copyFilePath);
+		
+		try {
+			FileInputStream fis = new FileInputStream(originalFile);
+			FileOutputStream fos = new FileOutputStream(copyFile);
+			
+			byte[] buffer = new byte[2048];
+			int cnt = 0;
+			while((cnt = fis.read(buffer)) != -1) {
+				fos.write(buffer, 0, cnt);
+			}
+			fos.flush();
+			fos.close();
+			fis.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

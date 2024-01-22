@@ -20,19 +20,19 @@ create table subCategory (
 
 /* 상품 테이블 */
 create table product (
- prdIdx int not null auto_increment,
- majorCatCode char(1) not null,
- subCatCode char(3) not null,
- prdCode varchar(20) not null,
- prdName varchar(50) not null,
- prdbrandName varchar(50) not null,
- prdPrice int not null,
- prdFSName varchar(200) not null,
- prdContent text not null,
- primary key (prdIdx),
- unique key (prdCode, prdName),
- foreign key (majorCatCode) references majorCategory(majorCatCode),
- foreign key (subCatCode) references subCategory(subCatCode)
+	prdIdx int not null,
+	majorCatCode char(1) not null,
+	subCatCode char(3) not null,
+	prdCode varchar(20) not null,
+	prdName varchar(50) not null,
+	prdBrandName varchar(50) not null,
+	prdPrice int not null,
+	prdFSName varchar(200) not null,
+	prdContent text not null,
+	primary key (prdIdx),
+	unique key (prdCode, prdName),
+	foreign key (majorCatCode) references majorCategory(majorCatCode),
+	foreign key (subCatCode) references subCategory(subCatCode)
 );
 
 /* 상품 옵션 */
@@ -44,6 +44,28 @@ create table prdOption (
 	primary key (opIdx),
 	foreign key (prdIdx) references product(prdIdx)
 );
+
+/* 장바구니 */
+create table storeCart(
+  cIdx   int not null auto_increment,			/* 장바구니 고유번호 */
+  mid    varchar(20) not null,						/* 장바구니를 사용한 회원의 아이디 */
+  prdIdx  int not null,										/* 장바구니에 담은 상품의 고유번호 */
+  prdName	varchar(50) not null,						/* 장바구니에 담은 구입한 상품명 */
+  prdPrice   int not null,								/* 상품의 기본 가격 */
+  prdThumbnail	varchar(250) not null,		/* 서버에 저장된 상품의 메인 이미지 */
+  opIdx	  int not null,					/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
+  opName  varchar(100) not null,					/* 옵션명 리스트(배열처리) */
+  opPrice int not null,					/* 옵션가격 리스트(배열처리) */
+  quantity 	int not null,				/* 구매수량 리스트(배열처리) */
+  totalPrice  int not null,								/* 구매한 모든 항목(상품과 옵션포함)에 따른 총 가격 */
+  cartDate datetime default now(),				/* 장바구니에 상품을 담은 날짜 */
+  primary key(cIdx),
+  foreign key(prdIdx) references product(prdIdx) on update cascade on delete cascade,
+  foreign key(opIdx) references prdOption(opIdx) on update cascade on delete cascade
+);
+
+
+
 
 drop table product;
 insert into majorCategory values ("A1","스킨/토너");

@@ -39,6 +39,10 @@
 	<select id="getUnderCatSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
 		select * from subCategory where majorCatCode = #{majorCatCode};
 	</select>
+	
+	<select id="getProductMaxIdx" resultType="com.spring.javaProjectS6.vo.ProductVO">
+    select * from product order by prdIdx desc limit 1;
+  </select>
 
 	<insert id="setCategoryInput">
 		<if test='category == "major"'>
@@ -47,6 +51,10 @@
 		<if test='category == "sub"'>
 			insert into subCategory values (#{vo.majorCatCode}, #{vo.subCatCode}, #{vo.subCatName});
 		</if>
+	</insert>
+	
+	<insert id="setProductInput">
+		insert into product values (#{vo.prdIdx},#{vo.majorCatCode},#{vo.subCatCode},#{vo.prdCode},#{vo.prdName},#{vo.prdBrandName},#{vo.prdPrice},#{vo.prdFSName},#{vo.prdContent});
 	</insert>
 	
 	<delete id="setCategoryDelete">
