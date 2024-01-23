@@ -9,17 +9,17 @@ public class ProductVO {
 	private String subCatCode;
 	private String subCatName;
 	
-	private int prdIdx;
-	private String prdCode;
-	private String prdName;
-	private String prdBrandName;
-	private String prdPrice;
-	private String prdFSName;
-	private String prdContent;
+	private int prodIdx;
+	private String prodCode;
+	private String prodName;
+	private String prodBrandName;
+	private String prodPrice;
+	private String prodFSName;
+	private String prodContent;
 
 	private int opIdx;
-	private int opPrdIdx;
+	private int opProdIdx;
 	private String opName;
-	private String opPrice;
+	private int opPrice;
 
 }

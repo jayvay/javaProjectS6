@@ -6,10 +6,10 @@ import lombok.Data;
 public class CartVO {
 	private int cIdx;
 	private String mid;
-	private int prdIdx;
-	private String prdName;
-	private int prdPrice;
-	private String prdThumbnail;
+	private int prodIdx;
+	private String prodName;
+	private int prodPrice;
+	private String prodThumbnail;
 	private int opIdx;
 	private String opName;
 	private int opPrice;

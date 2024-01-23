@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>goodsList.jsp</title>
+  <title>cart.jsp</title>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <style>
   	body {padding-top: 180px;}

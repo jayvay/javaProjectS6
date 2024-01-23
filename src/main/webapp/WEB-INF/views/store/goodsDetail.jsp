@@ -11,11 +11,11 @@
   <style>
   	body {padding-top: 180px;}
   	img {max-width: 510px; max-height:510px;}
-  	.prd_brand {
+  	.prod_brand {
   		font-size: 16px;
   		line-hight: 24px;
   	}
-  	.prd_name {
+  	.prod_name {
   		margin-top: 10px;
   		font-size: 26px;
   		line-height: 34px;
@@ -161,10 +161,10 @@
   </div>
   <div style="float:right; width:450px;">
   	<div>
-  		<p class="prd_brand"><a href="#">${prdVO.subCatName}&nbsp;<i class="ri-store-line"></i></a></p>
-  		<p class="prd_name">${prdVO.prdName}</p>
+  		<p class="prod_brand"><a href="#">${prodVO.subCatName}&nbsp;<i class="ri-store-line"></i></a></p>
+  		<p class="prod_name">${prodVO.prodName}</p>
   		<div class="price">
-  			<span class="price-1"><strike>${prdVO.}</strike><span>원</span></span>
+  			<span class="price-1"><strike>${prodVO.prodPrice}</strike><span>원</span></span>
   			<span class="price-2"><strong>29,000</strong><span>원</span></span>
   		</div>
   		<div class="moreInfo">
@@ -179,7 +179,7 @@
   		<c:if test="${fn: length(opVOS) > 0}">
 	      <div class="form-group">
 	        <form name="optionForm">
-	          <select size="1" class="form-control" id="prdOption">
+	          <select size="1" class="form-control" id="prodOption">
 	            <option value="" disabled selected>상품옵션선택</option>
 	            <c:forEach var="opVO" items="${opVOS}">
 	              <option value="${opVO.opIdx}:${opVO.opName}_${opVO.opPrice}">${opVO.opName}</option>
@@ -187,7 +187,7 @@
 	          </select>
 	        </form>
 	      </div>
-	      <div id="prdOptionSelect"></div>
+	      <div id="prodOptionSelect"></div>
       </c:if>
       <c:if test="${fn: length(opVOS) == 0}">
 	  		<div class="cntBox">
@@ -222,9 +222,15 @@
 	function numCalc(type, ths) {
 		let inputNum = $(ths).parents("span").find("input[name='numCalc']");
 		let cnt = Number(inputNum.val());
+		let prodOption = $("#prodOption").val();
+		let opPrice = prodOption.substring(prodOption.indexOf("_")+1);
+		let opIdx = prodOption.substring(0, prodOption.indexOf(":"));
 		
 		 if(type == 'p') {
 			 inputNum.val(Number(cnt + 1));
+			 cnt = Number(cnt + 1);
+			 let res = cnt * opPrice;
+			 $("#optionPrice"+opIdx).html(res);
 		 }
 		 else {
 			 if(cnt > 0) inputNum.val(Number(cnt - 1));
@@ -246,14 +252,14 @@
 		 */
   let idxArray = new Array();	 
 		 
-	$("#prdOption").change(function() {
-		let prdOption = $(this).val();
-		let opIdx = prdOption.substring(0, prdOption.indexOf(":"));
-		let opName = prdOption.substring(prdOption.indexOf(":")+1, prdOption.indexOf("_"));
-		let opPrice = prdOption.substring(prdOption.indexOf("_")+1);
-		let comma = numberWithCommas(opPrice);
+	$("#prodOption").change(function() {
+		let prodOption = $(this).val();
+		let opIdx = prodOption.substring(0, prodOption.indexOf(":"));
+		let opName = prodOption.substring(prodOption.indexOf(":")+1, prodOption.indexOf("_"));
+		let opPrice = prodOption.substring(prodOption.indexOf("_")+1);
+		/* let comma = numberWithCommas(opPrice); */
 		
-		if($('#layer'+opIdx).length == 0 && prdOption != "") {
+		if($('#layer'+opIdx).length == 0 && prodOption != "") {
 			idxArray[opIdx] = opIdx;
 			
 			let str = '';
@@ -266,19 +272,32 @@
 			str += '<button class="btnCalc plus" onclick="numCalc(\'p\', this)">수량 1증가</button>';
 			str += '</span>';
 			str += '</div>';
-			str += '<div class="optionPrice">'+comma+'원';
+			str += '<div id="optionPrice'+opIdx+'" class="optionPrice">'+opPrice+'원';
 			str += '<a href="" style="vertical-align:middle;"><font size="5pt"><i class="ri-close-line"></i></font></a>';
 			str += '</div>';
 			str += '</div>';
-			$("#prdOptionSelect").append(str);
-			
+			$("#prodOptionSelect").append(str);
+			/* totCalc(); */
 		}
 	});
+	
+
+/* 	function totCalc() {
+		let totPrice = 0, totCount = 0;
+		for(let idx of idxArr) {
+			totPrice = totPrice + parseInt(($("#opPrice"+idx).val()).replace(/,/g , ''));
+			totCount = totCount + parseInt($("#result"+idx).val());
+		}
+		
+		$("#totPrice").text(totPrice.toLocaleString() + "원");
+		$("#totCount").text(totCount + "개");
+	} */
 	
   // 천 단위마다 콤마를 표시해 주는 함수
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
   }
+  
 </script>
 </body>
 </html>

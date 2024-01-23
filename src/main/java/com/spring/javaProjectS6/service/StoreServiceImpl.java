@@ -16,13 +16,13 @@ public class StoreServiceImpl implements StoreService {
 	StoreDAO storeDAO;
 
 	@Override
-	public ProductVO getProductSearch(int prdIdx) {
-		return storeDAO.getProductSearch(prdIdx);
+	public ProductVO getProductSearch(int prodIdx) {
+		return storeDAO.getProductSearch(prodIdx);
 	}
 
 	@Override
-	public List<ProductVO> getPrdOptionSearch(int prdIdx) {
-		return storeDAO.getPrdOptionSearch(prdIdx);
+	public List<ProductVO> getProdOptionSearch(int prodIdx) {
+		return storeDAO.getProdOptionSearch(prodIdx);
 	}
 
 	@Override

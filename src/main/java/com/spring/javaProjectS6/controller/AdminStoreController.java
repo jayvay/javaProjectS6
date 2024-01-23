@@ -94,7 +94,7 @@ public class AdminStoreController {
 	@ResponseBody
 	@RequestMapping(value = "/major_subCatName", method = RequestMethod.POST)
 	public List<ProductVO> major_subCatNamePost(String majorCatCode) {
-		return adminStoreService.getUnderCatSearch(majorCatCode);
+		return adminStoreService.getUnderCatSearch(majorCatCode, "none");
 	}
 	
 	//관리자 상품 등록시 ckeditor 에 사진 첨부할 경우 dbShop 폴더에 저장, 저장한 파일을 브라우저 textarea 상자에 보여준다
@@ -126,6 +126,7 @@ public class AdminStoreController {
 	
 	@RequestMapping(value = "/storeProductInput", method = RequestMethod.POST)
 	public String storeProductInputPost(MultipartFile file, ProductVO vo) {
+		
 		int res = adminStoreService.setProductInput(file, vo);
 		
 		if(res != 0) return "redirect:/message/productInputOk";
@@ -134,8 +135,54 @@ public class AdminStoreController {
 	
 	@RequestMapping(value = "/storeProductOptionInput", method = RequestMethod.GET)
 	public String storeProductOptionInput(Model model) {
+		List<ProductVO> majorCatVOS = adminStoreService.getMajorCategory();
+		
+		model.addAttribute("majorCatVOS", majorCatVOS);
 		model.addAttribute("adminFlag", "storeProductOptionInput");
 		return "admin/admin";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/sub_productName", method = RequestMethod.POST)
+	public List<ProductVO> sub_productNamePost(String majorCatCode, String subCatCode) {
+		return adminStoreService.getUnderCatSearch(majorCatCode, subCatCode);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getProductInfo", method = RequestMethod.POST)
+	public ProductVO getProductInfoPost(String prodName) {
+		return adminStoreService.getProductInfo(prodName);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getOptionList", method = RequestMethod.POST)
+	public List<ProductVO> getOptionListPost(int prodIdx) {
+		return adminStoreService.getOptionList(prodIdx);
+	}
+	
+	@RequestMapping(value = "/storeProductOptionInput", method = RequestMethod.POST)
+	public String storeProductOptionInputPost(Model model, ProductVO vo, String[] opName, int[] opPrice) {
+		int res = 0;
+		for(int i=0; i<opName.length; i++) {
+			int optionCnt = adminStoreService.getOptionSearch(vo.getProdIdx(), opName[i]);
+			if(optionCnt != 0) continue;
+			
+			// 동일한 옵션이 없다면 vo에 현재 옵션 이름과 가격을 set시킨후 옵션테이블에 등록처리한다.
+			vo.setProdIdx(vo.getProdIdx());
+			vo.setOpName(opName[i]);
+			vo.setOpPrice(opPrice[i]);
+			
+			res = adminStoreService.setOptionInput(vo);
+		}
+		if(res != 0) return "redirect:/message/optionInputOk";
+		else return "redirect:/message/optionInputNo";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/optionDelete", method = RequestMethod.POST)
+	public String optionDeletePost(int opIdx) {
+		int res = adminStoreService.setOptionDelete(opIdx);
+		return res + "";
 	}
 	
 	@RequestMapping(value = "/storeProductList", method = RequestMethod.GET)

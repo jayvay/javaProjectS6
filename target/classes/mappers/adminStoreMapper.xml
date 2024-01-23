@@ -37,12 +37,37 @@
 	</select>
 
 	<select id="getUnderCatSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select * from subCategory where majorCatCode = #{majorCatCode};
+		<if test='subCatCode == "none"'>
+			select * from subCategory where majorCatCode = #{majorCatCode};
+		</if>
+		<if test='subCatCode != "none"'>
+			select * from product where majorCatCode = #{majorCatCode} and subCatCode = #{subCatCode};
+		</if>
 	</select>
 	
 	<select id="getProductMaxIdx" resultType="com.spring.javaProjectS6.vo.ProductVO">
-    select * from product order by prdIdx desc limit 1;
+    select * from product order by prodIdx desc limit 1;
   </select>
+
+	<select id="getProductInfo" resultType="com.spring.javaProjectS6.vo.ProductVO">
+    select p.*, m.majorCatName, s.subCatName 
+		from product p
+		inner join majorCategory m ON p.majorCatCode = m.majorCatCode
+		inner join subCategory s ON p.subCatCode = s.subCatCode
+		where p.prodName = '짱구인형'
+		order by p.prodIdx
+		limit 1;  
+  </select>
+  
+ 	<select id="getOptionList" resultType="com.spring.javaProjectS6.vo.ProductVO">
+  	select * from prodOption where prodIdx = #{prodIdx} order by opName;
+  </select>
+  
+ 	<select id="getOptionSearch" resultType="int">
+  	select count(*) from prodOption where prodIdx = #{prodIdx} and opName = #{opName};
+  </select>
+  
+  
 
 	<insert id="setCategoryInput">
 		<if test='category == "major"'>
@@ -54,21 +79,29 @@
 	</insert>
 	
 	<insert id="setProductInput">
-		insert into product values (#{vo.prdIdx},#{vo.majorCatCode},#{vo.subCatCode},#{vo.prdCode},#{vo.prdName},#{vo.prdBrandName},#{vo.prdPrice},#{vo.prdFSName},#{vo.prdContent});
+		insert into product values (#{vo.prodIdx},#{vo.majorCatCode},#{vo.subCatCode},#{vo.prodCode},#{vo.prodName},#{vo.prodBrandName},#{vo.prodPrice},#{vo.prodFSName},#{vo.prodContent});
+	</insert>
+	
+	<insert id="setOptionInput">
+		insert into prodOption values (default, #{vo.prodIdx}, #{vo.opName}, #{vo.opPrice});
 	</insert>
 	
 	<delete id="setCategoryDelete">
 		<if test='category == "major"'>
-			delete prdOption from prdOption join product p on p.prdIdx = prdOption.prdIdx where p.majorCatCode = #{vo.majorCatCode};
+			delete prodOption from prodOption join product p on p.prodIdx = prodOption.prodIdx where p.majorCatCode = #{vo.majorCatCode};
 			delete from product where majorCatCode = #{vo.majorCatCode};
 			delete from subCategory where majorCatCode = #{vo.majorCatCode};
 			delete from majorCategory where majorCatCode = #{vo.majorCatCode} and majorCatName = #{vo.majorCatName};
 		</if>
 		<if test='category == "sub"'>
-			delete prdOption from prdOption join product p on p.prdIdx = prdOption.prdIdx where p.majorCatCode = #{vo.majorCatCode} and p.subCatCode = #{vo.subCatCode};
+			delete prodOption from prodOption join product p on p.prodIdx = prodOption.prodIdx where p.majorCatCode = #{vo.majorCatCode} and p.subCatCode = #{vo.subCatCode};
 			delete from product where majorCatCode = #{vo.majorCatCode} and subCatCode = #{vo.subCatCode};
 			delete from subCategory where majorCatCode = #{vo.majorCatCode} and subCatCode = #{vo.subCatCode} and subCatName = #{vo.subCatName};
 		</if>
+	</delete>
+	
+	<delete id="setOptionDelete">
+		delete from prodOption where opIdx = #{opIdx};
 	</delete>
 	
 	

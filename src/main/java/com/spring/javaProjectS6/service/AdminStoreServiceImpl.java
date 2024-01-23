@@ -75,8 +75,8 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 	}
 
 	@Override
-	public List<ProductVO> getUnderCatSearch(String majorCatCode) {
-		return adminStoreDAO.getUnderCatSearch(majorCatCode);
+	public List<ProductVO> getUnderCatSearch(String majorCatCode, String subCatCode) {
+		return adminStoreDAO.getUnderCatSearch(majorCatCode, subCatCode);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 				
 				//이미지를 서버 파일 시스템에 업로드 하는 메소드 호출
 				writeFile(file, serverFileName, "product");
-				vo.setPrdFSName(serverFileName);
+				vo.setProdFSName(serverFileName);
 			}
 			else {
 				return res;
@@ -103,14 +103,14 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 		}
 		
 		//상세이미지
-		String prdContent = vo.getPrdContent();
-		if(prdContent.indexOf("src=\"/") == -1) return 0;
+		String prodContent = vo.getProdContent();
+		if(prodContent.indexOf("src=\"/") == -1) return 0;
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/store/");
 		
 		int position = 31;
-		String nextDetailImgFile = prdContent.substring(prdContent.indexOf("src=\"/") + position);
+		String nextDetailImgFile = prodContent.substring(prodContent.indexOf("src=\"/") + position);
 		boolean sw = true;
 		
 		while(sw) {
@@ -126,14 +126,14 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 			else nextDetailImgFile = nextDetailImgFile.substring(nextDetailImgFile.indexOf("src=\"/") + position);
 		}
 		
-		vo.setPrdContent(vo.getPrdContent().replace("/data/store/", "/data/store/product/"));
+		vo.setProdContent(vo.getProdContent().replace("/data/store/", "/data/store/product/"));
 		
 		int maxIdx = 1;
 		ProductVO maxVO = adminStoreDAO.getProductMaxIdx();
-		if(maxVO != null) maxIdx = maxVO.getPrdIdx() + 1;
+		if(maxVO != null) maxIdx = maxVO.getProdIdx() + 1;
 		
-		vo.setPrdIdx(maxIdx);
-		vo.setPrdCode(vo.getMajorCatCode() + vo.getSubCatCode() + maxIdx);
+		vo.setProdIdx(maxIdx);
+		vo.setProdCode(vo.getMajorCatCode() + vo.getSubCatCode() + maxIdx);
 		//상품 등록
 		res = adminStoreDAO.setProductInput(vo);
 		
@@ -175,5 +175,30 @@ public class AdminStoreServiceImpl implements AdminStoreService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public ProductVO getProductInfo(String prodName) {
+		return adminStoreDAO.getProductInfo(prodName);
+	}
+
+	@Override
+	public List<ProductVO> getOptionList(int prodIdx) {
+		return adminStoreDAO.getOptionList(prodIdx);
+	}
+
+	@Override
+	public int getOptionSearch(int prodIdx, String opName) {
+		return adminStoreDAO.getOptionSearch(prodIdx, opName);
+	}
+
+	@Override
+	public int setOptionInput(ProductVO vo) {
+		return adminStoreDAO.setOptionInput(vo);
+	}
+
+	@Override
+	public int setOptionDelete(int opIdx) {
+		return adminStoreDAO.setOptionDelete(opIdx);
 	}
 }

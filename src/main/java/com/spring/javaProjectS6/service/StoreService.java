@@ -7,9 +7,9 @@ import com.spring.javaProjectS6.vo.ProductVO;
 
 public interface StoreService {
 
-	public ProductVO getProductSearch(int prdIdx);
+	public ProductVO getProductSearch(int prodIdx);
 
-	public List<ProductVO> getPrdOptionSearch(int prdIdx);
+	public List<ProductVO> getProdOptionSearch(int prodIdx);
 
 	public List<CartVO> getCartList(String mid);
 

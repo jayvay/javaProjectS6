@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaProjectS6.dao.StoreDAO">
 	<select id="getProductSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select prd.*, sub.subCatName from product prd, subCategory sub where prdIdx=#{prdIdx} and prd.subCatCode = sub.subCatCode;
+		select prod.*, sub.subCatName from product prod, subCategory sub where prodIdx=#{prodIdx} and prod.subCatCode = sub.subCatCode;
 	</select>
 
-	<select id="getPrdOptionSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select * from prdOption where opPrdIdx = #{prdIdx} order by opIdx;
+	<select id="getProdOptionSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select * from prodOption where prodIdx = #{prodIdx} order by opIdx;
 	</select>
 	
 	<select id="getCartList" resultType="com.spring.javaProjectS6.vo.CartVO">

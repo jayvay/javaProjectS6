@@ -26,8 +26,18 @@ public interface AdminStoreService {
 
 	public int setCategoryDelete(String category, ProductVO vo);
 
-	public List<ProductVO> getUnderCatSearch(String majorCatCode);
+	public List<ProductVO> getUnderCatSearch(String majorCatCode, String subCatCode);
 
 	public int setProductInput(MultipartFile file, ProductVO vo);
+
+	public ProductVO getProductInfo(String prodName);
+
+	public List<ProductVO> getOptionList(int prodIdx);
+
+	public int getOptionSearch(int prodIdx, String opName);
+
+	public int setOptionInput(ProductVO vo);
+
+	public int setOptionDelete(int opIdx);
 
 }

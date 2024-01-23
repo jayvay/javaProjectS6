@@ -13,7 +13,7 @@ public class MessageController {
 	public String msgGet(Model model, @PathVariable String msgFlag, String mid) {
 		if(msgFlag.equals("joinOk")) {
 			model.addAttribute("msg", "회원가입이 완료되었습니다. 다시 로그인해 주세요.");
-			model.addAttribute("url", "member/login");
+			model.addAttribute("url", "member/login");	//URL은 매핑주소!!!!
 		}
 		else if(msgFlag.equals("joinNo")) {
 			model.addAttribute("msg", "회원가입 실패, 다시 시도해 주세요.");
@@ -43,12 +43,21 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("productInputOk")) {
 			model.addAttribute("msg", "상품이 정상적으로 등록되었습니다.");
-			model.addAttribute("url", "admin/adminStore/storeProductList");
+			model.addAttribute("url", "adminStore/storeProductInput");
 		}
 		else if(msgFlag.equals("productInputNo")) {
 			model.addAttribute("msg", "상품 등록 실패, 다시 시도하세요.");
-			model.addAttribute("url", "admin/adminStore/storeProductInput");
+			model.addAttribute("url", "adminStore/storeProductInput");
 		}
+		else if(msgFlag.equals("optionInputOk")) {
+			model.addAttribute("msg", "옵션이 정상적으로 등록되었습니다.");
+			model.addAttribute("url", "adminStore/storeProductOptionInput");
+		}
+		else if(msgFlag.equals("optionInputNo")) {
+			model.addAttribute("msg", "옵션 등록 실패, 다시 시도하세요.");
+			model.addAttribute("url", "adminStore/storeProductOptionInput");
+		}
+		
 		
 		
 		return "include/message";

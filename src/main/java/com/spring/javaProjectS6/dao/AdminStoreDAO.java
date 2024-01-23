@@ -26,11 +26,21 @@ public interface AdminStoreDAO {
 
 	public int setCategoryDelete(@Param("category") String category, @Param("vo") ProductVO vo);
 
-	public List<ProductVO> getUnderCatSearch(@Param("majorCatCode") String majorCatCode);
+	public List<ProductVO> getUnderCatSearch(@Param("majorCatCode") String majorCatCode, @Param("subCatCode") String subCatCode);
 
 	public ProductVO getProductMaxIdx();
 
 	public int setProductInput(@Param("vo") ProductVO vo);
+
+	public ProductVO getProductInfo(@Param("prodName") String prodName);
+
+	public List<ProductVO> getOptionList(@Param("prodIdx") int prodIdx);
+
+	public int getOptionSearch(@Param("prodIdx") int prodIdx, @Param("opName") String opName);
+
+	public int setOptionInput(@Param("vo") ProductVO vo);
+
+	public int setOptionDelete(@Param("opIdx") int opIdx);
 
 
 }

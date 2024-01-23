@@ -27,9 +27,8 @@
     function fCheck() {
     	let majorCatCode = myform.majorCatCode.value;
     	let subCatCode = myform.subCatCode.value;
-    	let prdBrandName = myform.prdBrandName.value;
-    	let prdName = myform.prdName.value;
-			let prdPrice = myform.prdPrice.value;
+    	let prodName = myform.prodName.value;
+			let prodPrice = myform.prodPrice.value;
 			let file = myform.file.value;	
 			let ext = file.substring(file.lastIndexOf(".")+1);
 			let uExt = ext.toUpperCase();
@@ -43,11 +42,7 @@
 				alert("상품 소분류를 입력하세요!");
 				return false;
 			}
-			else if(prdBrandName == "") {
-				alert("브랜드명을 입력하세요!");
-				return false;
-			}
-			else if(prdName == "") {
+			else if(prodName == "") {
 				alert("상품명을 입력하세요!");
 				return false;
 			}
@@ -59,7 +54,7 @@
 				alert("업로드 가능한 파일이 아닙니다.");
 				return false;
 			}
-			else if(prdPrice == "" || !regExpPrice.test(prdPrice)) {
+			else if(prodPrice == "" || !regExpPrice.test(prodPrice)) {
 				alert("상품금액은 숫자로 입력하세요.");
 				return false;
 			}
@@ -123,27 +118,23 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="prdBrandName">브랜드명</label>
-        <input type="text" name="prdBrandName" id="prdBrandName" class="form-control" placeholder="브랜드명을 입력하세요" required />
-      </div>
-      <div class="form-group">
         <label for="file">메인이미지 (업로드 가능파일:jpg, jpeg, gif, png)</label>
         <input type="file" name="file" id="file" class="form-control-file border" accept=".jpg,.gif,.png,.jpeg" required />
       </div>
       <div class="form-group">
-      	<label for="prdPrice">상품가격</label>
-      	<input type="text" name="prdPrice" id="prdPrice" class="form-control" required />
+      	<label for="prodPrice">상품가격</label>
+      	<input type="text" name="prodPrice" id="prodPrice" class="form-control" required />
       </div>
       <div class="form-group">
-      	<label for="prdName">상품명</label>
-      	<input type="text" name="prdName" id="prdName" class="form-control" required />
+      	<label for="prodName">상품명</label>
+      	<input type="text" name="prodName" id="prodName" class="form-control" required />
       </div>
       <div class="form-group">
-      	<label for="prdContent">상품상세설명</label>
-      	<textarea rows="5" name="prdContent" id="CKEDITOR" class="form-control" required></textarea>
+      	<label for="prodContent">상품상세설명</label>
+      	<textarea rows="5" name="prodContent" id="CKEDITOR" class="form-control" required></textarea>
       </div>
       <script>
-		    CKEDITOR.replace("prdContent",{
+		    CKEDITOR.replace("prodContent",{
 		    	uploadUrl:"${ctp}/adminStore/detailImgUpload",
 		    	filebrowserUploadUrl: "${ctp}/adminStore/detailImgUpload",
 		    	height:460
