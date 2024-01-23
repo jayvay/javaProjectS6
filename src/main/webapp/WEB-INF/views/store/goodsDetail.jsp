@@ -220,7 +220,7 @@
 	'use strict';
 	
 	function numCalc(type, ths) {
-		let inputNum = $(ths).parents("span").find("input[name='numCalc']");
+		let inputNum = $(ths).parents("span").find("input[name='numCalc']");	<!-- 240123 모르겠다.. -->
 		let cnt = Number(inputNum.val());
 		let prodOption = $("#prodOption").val();
 		let opPrice = prodOption.substring(prodOption.indexOf("_")+1);
