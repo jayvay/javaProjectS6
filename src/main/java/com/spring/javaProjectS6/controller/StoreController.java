@@ -23,7 +23,19 @@ public class StoreController {
 	StoreService storeService; 
 	
 	@RequestMapping(value = "/goodsList", method = RequestMethod.GET)
-	public String goodsListGet() {
+	public String goodsListGet(Model model, 
+			@RequestParam(name="majorCatCode", defaultValue = "", required = false) String majorCatCode,
+			@RequestParam(name="part", defaultValue = "전체", required = false) String part) {
+		ProductVO majorVO = storeService.getMajorCategorySearch(majorCatCode); 
+		List<ProductVO> subVOS = storeService.getSubCategorySearch(); 
+		
+		List<ProductVO> prodVOS = storeService.getProductList(part); 
+		
+		model.addAttribute("majorVO", majorVO);
+		model.addAttribute("subVOS", subVOS);
+		model.addAttribute("part", part);
+		model.addAttribute("prodVOS", prodVOS);
+		
 		return "store/goodsList";
 	}
 
@@ -49,5 +61,19 @@ public class StoreController {
 		model.addAttribute("cartVOS", cartVOS);
 		return "store/cart";
 	}
-
+	
+	@RequestMapping(value = "/cart", method = RequestMethod.POST)
+	public String cartPost(HttpSession session, CartVO vo, String flag) {
+		String mid = (String) session.getAttribute("sMid");
+		
+//		CartVO cartVO = storeService.getCartProdSearch(vo.getProdName(), vo.getOpName(), mid);
+//		int res = 0;
+//		if(cartVO != null) {
+//			String[] 
+//					
+//		}
+		
+		
+		return "";
+	}
 }

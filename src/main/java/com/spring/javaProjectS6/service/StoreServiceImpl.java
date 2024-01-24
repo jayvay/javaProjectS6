@@ -14,7 +14,22 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	StoreDAO storeDAO;
+	
+	@Override
+	public ProductVO getMajorCategorySearch(String majorCatCode) {
+		return storeDAO.getMajorCategorySearch(majorCatCode);
+	}
+	
+	@Override
+	public List<ProductVO> getSubCategorySearch() {
+		return storeDAO.getSubCategorySearch();
+	}
 
+	@Override
+	public List<ProductVO> getProductList(String part) {
+		return storeDAO.getProductList(part);
+	}
+	
 	@Override
 	public ProductVO getProductSearch(int prodIdx) {
 		return storeDAO.getProductSearch(prodIdx);
@@ -29,4 +44,7 @@ public class StoreServiceImpl implements StoreService {
 	public List<CartVO> getCartList(String mid) {
 		return storeDAO.getCartList(mid);
 	}
+
+	
+
 }

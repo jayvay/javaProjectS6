@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaProjectS6.dao.StoreDAO">
+	<select id="getMajorCategorySearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select * from majorCategory where majorCatCode = #{majorCatCode};
+	</select>
+	
+	<select id="getSubCategorySearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		select sub.subCatName, major.majorCatName 
+		from subCategory sub 
+		join majorCategory major on sub.majorCatCode = major.majorCatCode
+		order by subCatName;
+	</select>
+	
+	<select id="getProductList" resultType="com.spring.javaProjectS6.vo.ProductVO">
+		<if test='part == "전체"'>
+	 		select * from product order by prodIdx desc;
+	 	</if>
+	   <if test='part != "전체"'>
+	 		select prod.*, sub.subCatName, major.majorCatName
+			from product prod 
+			join subCategory sub on substring(prod.prodCode,2,3)=sub.SubCatCode 
+			join majorCategory major on prod.majorCatCode = major.majorCatCode
+			where sub.subCatName = '스킨/토너' and major.majorCatName = '스킨케어' 
+			order by prodIdx desc;
+	 	</if>
+	</select>
+	
 	<select id="getProductSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">
-		select prod.*, sub.subCatName from product prod, subCategory sub where prodIdx=#{prodIdx} and prod.subCatCode = sub.subCatCode;
+		select prod.*, sub.subCatName 
+		from product prod
+		inner join subCategory sub on prod.subCatCode = sub.subCatCode
+		where prod.prodIdx = #{prodIdx};
 	</select>
 
 	<select id="getProdOptionSearch" resultType="com.spring.javaProjectS6.vo.ProductVO">

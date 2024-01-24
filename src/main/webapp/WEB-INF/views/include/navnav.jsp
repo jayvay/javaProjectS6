@@ -25,7 +25,7 @@
       	<h6 style="margin:0 15px; padding:0px; text-align:justify;"><b>카테고리</b></h6><hr/>   
       	<div class="row">
       		<div class="col w3-padding-large" style="border-right:1px solid lightgray;">
-			      <a href="${ctp}/store/goodsList" class="w3-bar-item w3-button w3-padding-small"><b>스킨케어 ></b></a>
+			      <a href="${ctp}/store/goodsList?majorCatCode=A" class="w3-bar-item w3-button w3-padding-small"><b>스킨케어 ></b></a>
 		        <ul style="list-style:none;">
 			        <li><a href="${ctp}/user/userList" class="w3-bar-item w3-button w3-padding-small">UserList1</a></li>
 			        <li><a href="${ctp}/user/userList" class="w3-bar-item w3-button w3-padding-small">UserList1</a></li>
