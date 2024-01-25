@@ -56,7 +56,7 @@
 	      <p><a href="#work" class="w3-button w3-black"><i class="fa fa-th"> </i> View Our Works</a></p>
 	    </div>
 	    <div class="w3-col m6">
-	      <img class="w3-image w3-round-large" src="/w3images/phone_buildings.jpg" alt="Buildings" width="700" height="394">
+	      <!-- <img class="w3-image w3-round-large" src="/w3images/phone_buildings.jpg" alt="Buildings" width="700" height="394"> -->
 	    </div>
 	  </div>
 	</div>
@@ -68,7 +68,7 @@
 	  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
 	    <div class="w3-col l3 m6 w3-margin-bottom">
 	      <div class="w3-card">
-	        <img src="/w3images/team2.jpg" alt="John" style="width:100%">
+	        <!-- <img src="/w3images/team2.jpg" alt="John" style="width:100%"> -->
 	        <div class="w3-container">
 	          <h3>John Doe</h3>
 	          <p class="w3-opacity">CEO & Founder</p>
@@ -79,7 +79,7 @@
 	    </div>
 	    <div class="w3-col l3 m6 w3-margin-bottom">
 	      <div class="w3-card">
-	        <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">
+	        <!-- <img src="/w3images/team1.jpg" alt="Jane" style="width:100%"> -->
 	        <div class="w3-container">
 	          <h3>Anja Doe</h3>
 	          <p class="w3-opacity">Art Director</p>
@@ -90,7 +90,7 @@
 	    </div>
 	    <div class="w3-col l3 m6 w3-margin-bottom">
 	      <div class="w3-card">
-	        <img src="/w3images/team3.jpg" alt="Mike" style="width:100%">
+	        <!-- <img src="/w3images/team3.jpg" alt="Mike" style="width:100%"> -->
 	        <div class="w3-container">
 	          <h3>Mike Ross</h3>
 	          <p class="w3-opacity">Web Designer</p>
@@ -101,7 +101,7 @@
 	    </div>
 	    <div class="w3-col l3 m6 w3-margin-bottom">
 	      <div class="w3-card">
-	        <img src="/w3images/team4.jpg" alt="Dan" style="width:100%">
+	        <!-- <img src="/w3images/team4.jpg" alt="Dan" style="width:100%"> -->
 	        <div class="w3-container">
 	          <h3>Dan Star</h3>
 	          <p class="w3-opacity">Designer</p>
@@ -134,7 +134,7 @@
 	</div>
 	
 	<!-- Work Section -->
-	<div class="w3-container" style="padding:128px 16px" id="work">
+	<!-- <div class="w3-container" style="padding:128px 16px" id="work">
 	  <h3 class="w3-center">OUR WORK</h3>
 	  <p class="w3-center w3-large">What we've done for people</p>
 	
@@ -167,7 +167,7 @@
 	      <img src="/w3images/tech_tableturner.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="A tableturner">
 	    </div>
 	  </div>
-	</div>
+	</div> -->
 	
 	<!-- Modal for full size images on click-->
 	<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
@@ -282,7 +282,7 @@
 	      </p>
 	    </form>
 	    <!-- Image of location/map -->
-	    <img src="/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;margin-top:48px">
+	    <!-- <img src="/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;margin-top:48px"> -->
 	  </div>
 	</div>
 	

@@ -10,7 +10,7 @@ public class CartVO {
 	private String prodName;
 	private int prodPrice;
 	private String prodThumbnail;
-	private int opIdx;
+	private String opIdx;
 	private String opName;
 	private int opPrice;
 	private int quantity;

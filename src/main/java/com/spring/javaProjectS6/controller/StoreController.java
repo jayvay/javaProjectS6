@@ -49,6 +49,49 @@ public class StoreController {
 		return "store/goodsDetail";
 	}
 	
+	@RequestMapping(value = "/goodsDetail", method = RequestMethod.POST)
+	public String goodsDetailPost(HttpSession session, CartVO vo, String flag) {
+		String mid = (String) session.getAttribute("sMid");
+		
+		int[] opIdxArray = new int[20];
+		String[] strOpIdx = vo.getOpIdx().split(",");
+		int cnt = 0;
+		for(int i=0; i<strOpIdx.length; i++) {
+			opIdxArray[i] = Integer.parseInt(strOpIdx[i]);
+			cnt++;
+		}
+
+		int res = 0;
+//		for(int opIdx : opIdxArray) {
+			
+		for(int i=0; i<cnt; i++) {
+			List<CartVO> cartVOS = storeService.getCartSearch(vo.getProdIdx(), opIdxArray[i] , mid);
+			if(cartVOS.size() != 0) {
+				for(CartVO cartVO : cartVOS) {
+					cartVO.setQuantity(cartVO.getQuantity() + vo.getQuantity());
+					cartVO.setTotalPrice(cartVO.getTotalPrice() + vo.getTotalPrice());
+					res = storeService.setCartUpdate(cartVO);
+				}
+			}
+			else {
+				System.out.println("vo" + vo);
+				res = storeService.setCartInput(vo, opIdxArray[i]);
+			}
+		}
+		
+		System.out.println("res:" + res);
+		
+		if(res != 0) {
+			if(flag.equals("order")) {
+				return "redirect:/message/cartOrderOk";
+			}
+			else {
+				return "redirect:/message/cartInputOk";
+			}
+		}
+		else return "redirect:/message/cartOrderNo";
+	}
+	
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public String cartGet(HttpSession session, CartVO vo, Model model) {
 		String mid = (String) session.getAttribute("sMid");
@@ -62,18 +105,4 @@ public class StoreController {
 		return "store/cart";
 	}
 	
-	@RequestMapping(value = "/cart", method = RequestMethod.POST)
-	public String cartPost(HttpSession session, CartVO vo, String flag) {
-		String mid = (String) session.getAttribute("sMid");
-		
-//		CartVO cartVO = storeService.getCartProdSearch(vo.getProdName(), vo.getOpName(), mid);
-//		int res = 0;
-//		if(cartVO != null) {
-//			String[] 
-//					
-//		}
-		
-		
-		return "";
-	}
 }

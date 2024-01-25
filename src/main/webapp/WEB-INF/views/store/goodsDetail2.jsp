@@ -280,7 +280,6 @@
 			<div class="optionPrice">29000원<span><a href=""><font size="5pt"><i class="ri-close-line"></i></font></a></span></div>
 		</div>
 		 */
-	
   let idxArray = new Array();	 
 		 
 	$("#prodOption").change(function() {
@@ -299,9 +298,9 @@
 			str += '<div class="row optionTxt"><div class="col">'+opName+'</div>';
 			str += '<div class="cnt2">';
 			str += '<span class="cntOption">';
-			str += '<button type="button" class="btnCalc minus" onclick="numPMCalc(\'m\', '+opIdx+', this)">수량 1감소</button>';
-			str += '<input type="text" id="quantity" name="quantity" value="1" class="tx_num" title="구매수량" readonly>';
-			str += '<button type="button" class="btnCalc plus" onclick="numPMCalc(\'p\', '+opIdx+', this)">수량 1증가</button>';
+			str += '<button class="btnCalc minus" onclick="numCalc(\'m\', \''+opIdx+'\', this)">수량 1감소</button>';
+			str += '<input type="text" id="numCalc" name="numCalc" value="1" class="tx_num" title="구매수량" readonly>';
+			str += '<button class="btnCalc plus" onclick="numCalc(\'p\', '+opIdx+', this)">수량 1증가</button>';
 			str += '</span>';
 			str += '</div>';
 			str += '<input type="text" id="opPriceComma'+opIdx+'" value="'+opPriceComma+'원" class="optionPrice" readonly/>';
@@ -316,8 +315,8 @@
 		}
 	});
 	
-	function numPMCalc(type, opIdx, ths) {
-		let inputNum = $(ths).parents("span").find("input[name='quantity']");	<!-- 240123 모르겠다.. -->
+	function numCalc(type, opIdx, ths) {
+		let inputNum = $(ths).parents("span").find("input[name='numCalc']");	<!-- 240123 모르겠다.. -->
 		let cnt = Number(inputNum.val());
 		let opPrice = document.getElementById("opPrice"+opIdx).value;
 		
@@ -372,16 +371,12 @@
   }
   
   function cartAdd() {
-	  if('${sMid}' == "") {
-			alert("로그인 후 이용 가능합니다");
-			location.href = "${ctp}/member/login";
-		}
-	  else if(document.getElementById("totalPrice").value == 0) {
+		if(document.getElementById("totalPrice").value == 0) {
 			alert("필수 옵션을 선택해주세요");
 			return false;
 		}
 		else {
-			document.myform.submit();
+			/* document.myform.submit(); */
 		}
 	}
 
@@ -397,7 +392,7 @@
 		}
 		else {
 			document.getElementById("flag").value = "order";
-			document.myform.submit();
+			/* document.myform.submit(); */
 		}
 	}
 </script>

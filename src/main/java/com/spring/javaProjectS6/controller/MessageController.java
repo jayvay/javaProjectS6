@@ -57,6 +57,14 @@ public class MessageController {
 			model.addAttribute("msg", "옵션 등록 실패, 다시 시도하세요.");
 			model.addAttribute("url", "adminStore/storeProductOptionInput");
 		}
+		else if(msgFlag.equals("cartInputOk")) {
+			model.addAttribute("msg", "장바구니에 상품이 정상적으로 담겼습니다.");
+			model.addAttribute("url", "adminStore/storeProductOptionInput");
+		}
+		else if(msgFlag.equals("cartOrderNo")) {
+			model.addAttribute("msg", "장바구니 담기 실패, 다시 시도하세요.");
+			model.addAttribute("url", "store/goodsList");
+		}
 		
 		
 		

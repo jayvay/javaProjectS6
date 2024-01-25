@@ -21,6 +21,12 @@ public interface StoreDAO {
 
 	public List<CartVO> getCartList(@Param("mid") String mid);
 
+	public List<CartVO> getCartSearch(@Param("prodIdx") int prodIdx, @Param("opIdx") int opIdx, @Param("mid") String mid);
+
+	public int setCartUpdate(@Param("cartVO") CartVO cartVO);
+
+	public int setCartInput(@Param("vo") CartVO vo, @Param("opIdx") int opIdx);
+
 
 
 

@@ -41,4 +41,16 @@
 		select * from storeCart where mid = #{mid} order by cIdx;
 	</select>
 	
+	<select id="getCartSearch" resultType="com.spring.javaProjectS6.vo.CartVO">
+		select * from storeCart where prodIdx = #{prodIdx} and opIdx = #{opIdx} and mid = #{mid} order by cIdx;
+	</select>
+	
+	<update id="setCartUpdate">
+		update storeCart set quantity = #{cartVO.quantity}, totalPrice = #{cartVO.totalPrice} 
+		where prodIdx = #{cartVO.prodIdx} and opIdx = #{cartVO.opIdx} and mid = #{cartVO.mid}; 
+	</update>
+	
+	<insert id="setCartInput">
+		insert into storeCart values (default, #{vo.mid}, #{vo.prodIdx}, #{opIdx}, #{vo.quantity}, #{vo.totalPrice}, default);
+	</insert>
 </mapper>

@@ -49,25 +49,36 @@ create table prdOption (
 create table storeCart(
   cIdx   int not null auto_increment,			/* 장바구니 고유번호 */
   mid    varchar(20) not null,						/* 장바구니를 사용한 회원의 아이디 */
-  prdIdx  int not null,										/* 장바구니에 담은 상품의 고유번호 */
-  prdName	varchar(50) not null,						/* 장바구니에 담은 구입한 상품명 */
-  prdPrice   int not null,								/* 상품의 기본 가격 */
-  prdThumbnail	varchar(250) not null,		/* 서버에 저장된 상품의 메인 이미지 */
-  opIdx	  int not null,					/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
-  opName  varchar(100) not null,					/* 옵션명 리스트(배열처리) */
-  opPrice int not null,					/* 옵션가격 리스트(배열처리) */
-  quantity 	int not null,				/* 구매수량 리스트(배열처리) */
+  prodIdx  int not null,									/* 장바구니에 담은 상품의 고유번호 */
+  opIdx	  int not null,										/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
+  quantity 	int not null,									/* 구매수량 리스트(배열처리) */
   totalPrice  int not null,								/* 구매한 모든 항목(상품과 옵션포함)에 따른 총 가격 */
   cartDate datetime default now(),				/* 장바구니에 상품을 담은 날짜 */
   primary key(cIdx),
-  foreign key(prdIdx) references product(prdIdx) on update cascade on delete cascade,
-  foreign key(opIdx) references prdOption(opIdx) on update cascade on delete cascade
+  foreign key(prodIdx) references product(prodIdx) on update cascade on delete cascade,
+  foreign key(opIdx) references prodOption(opIdx) on update cascade on delete cascade
 );
 
+--create table storeCart(
+--  cIdx   int not null auto_increment,			/* 장바구니 고유번호 */
+--  mid    varchar(20) not null,						/* 장바구니를 사용한 회원의 아이디 */
+--  prodIdx  int not null,									/* 장바구니에 담은 상품의 고유번호 */
+--  prodName	varchar(50) not null,					/* 장바구니에 담은 구입한 상품명 */
+--  prodPrice   int not null,								/* 상품의 기본 가격 */
+--  prodThumbnail	varchar(250) not null,		/* 서버에 저장된 상품의 메인 이미지 */
+--  opIdx	  int not null,										/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
+--  opName  varchar(100) not null,					/* 옵션명 리스트(배열처리) */
+--  opPrice int not null,										/* 옵션가격 리스트(배열처리) */
+--  quantity 	int not null,									/* 구매수량 리스트(배열처리) */
+--  totalPrice  int not null,								/* 구매한 모든 항목(상품과 옵션포함)에 따른 총 가격 */
+--  cartDate datetime default now(),				/* 장바구니에 상품을 담은 날짜 */
+--  primary key(cIdx),
+--  foreign key(prodIdx) references product(prodIdx) on update cascade on delete cascade,
+--  foreign key(opIdx) references prodOption(opIdx) on update cascade on delete cascade
+--);
 
 
-
-drop table product;
+drop table storeCartt;
 insert into majorCategory values ("A1","스킨/토너");
 insert into subCategory values ("A1","A01","바이오힐보");
 insert into product values (default,"A","A01","A1A011","상품1",10000,"sample","sample");
@@ -109,3 +120,4 @@ create table subCategory (
 	foreign key (middleCatCode) references middleCategory(middleCatCode)
 );
 */
+

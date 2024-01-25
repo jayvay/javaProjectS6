@@ -45,6 +45,21 @@ public class StoreServiceImpl implements StoreService {
 		return storeDAO.getCartList(mid);
 	}
 
+	@Override
+	public List<CartVO> getCartSearch(int prodIdx, int opIdx, String mid) {
+		return storeDAO.getCartSearch(prodIdx, opIdx, mid);
+	}
+
+	@Override
+	public int setCartUpdate(CartVO cartVO) {
+		return storeDAO.setCartUpdate(cartVO);
+	}
+
+	@Override
+	public int setCartInput(CartVO vo, int opIdx) {
+		return storeDAO.setCartInput(vo, opIdx);
+	}
+
 	
 
 }

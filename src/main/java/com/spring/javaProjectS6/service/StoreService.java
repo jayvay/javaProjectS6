@@ -19,6 +19,12 @@ public interface StoreService {
 
 	public List<CartVO> getCartList(String mid);
 
+	public List<CartVO> getCartSearch(int prodIdx, int opIdx, String mid);
+
+	public int setCartUpdate(CartVO cartVO);
+
+	public int setCartInput(CartVO vo, int opIdx);
+
 
 
 
