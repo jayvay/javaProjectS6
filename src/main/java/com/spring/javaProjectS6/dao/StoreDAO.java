@@ -25,7 +25,7 @@ public interface StoreDAO {
 
 	public int setCartUpdate(@Param("cartVO") CartVO cartVO);
 
-	public int setCartInput(@Param("vo") CartVO vo, @Param("opIdx") int opIdx);
+	public int setCartInput(@Param("vo") CartVO vo);
 
 
 

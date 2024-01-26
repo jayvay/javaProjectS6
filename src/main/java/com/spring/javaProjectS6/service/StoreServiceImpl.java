@@ -56,8 +56,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public int setCartInput(CartVO vo, int opIdx) {
-		return storeDAO.setCartInput(vo, opIdx);
+	public int setCartInput(CartVO vo) {
+		return storeDAO.setCartInput(vo);
 	}
 
 	

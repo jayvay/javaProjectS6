@@ -232,7 +232,7 @@
 	          <%-- <input type="hidden" name="prodName" value="${prodVO.prodName}"/> --%>
 	          <%-- <input type="hidden" name="prodPrice" value="${prodVO.prodPrice}"/> --%>
 	          <%-- <input type="hidden" name="prodFSName" value="${prodVO.prodFSName}"/> --%>
-	          <input type="hidden" name="totalPriceArr" id="eachOpTotalPrice"/>
+	          <input type="hidden" name="totalPrice" id="eachOpTotalPrice"/>
 	          <input type="hidden" name="flag" id="flag"/>
 	
 			      <div id="prodOptionSelect"></div>
@@ -401,8 +401,8 @@
 		else {
 			document.getElementById("flag").value = "order";
 			let opIdxArr = myform.opIdxArr.value;
-			let quantityArr = myform.quantityArr.value;
-			let totalPriceArr = myform.totalPriceArr.value;
+			let opIdxArr = myform.opIdxArr.value;
+			let opIdxArr = myform.opIdxArr.value;
 			localStorage.setItem('prodIdx', '${prodVO.prodIdx}');
 			localStorage.setItem('opIdxArr', 'opIdxArr');
 			localStorage.setItem('quantityArr', '${prodVO.prodIdx}');

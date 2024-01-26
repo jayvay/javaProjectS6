@@ -115,13 +115,13 @@ div a, div a:hover {
 			    <li class="nav-item">
 			      <a class="nav-link" href="${ctp}/member/myPage">마이페이지</a>
 			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="${ctp}/store/cart">장바구니</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">주문배송</a>
+			    </li>
 		  	</c:if>
-		    <li class="nav-item">
-		      <a class="nav-link" href="${ctp}/store/cart">장바구니</a>
-		    </li>
-		    <li class="nav-item">
-		      <a class="nav-link" href="#">주문배송</a>
-		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link" href="#">고객센터</a>
 		    </li>

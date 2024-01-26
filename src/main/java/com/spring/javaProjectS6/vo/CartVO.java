@@ -9,11 +9,14 @@ public class CartVO {
 	private int prodIdx;
 	private String prodName;
 	private int prodPrice;
-	private String prodThumbnail;
-	private String opIdx;
+	private String prodFSName;
+	private String opIdxArr;
+	private int opIdx;
 	private String opName;
 	private int opPrice;
 	private int quantity;
+	private String quantityArr;
 	private int totalPrice;
+	private String totalPriceArr;
 	private String cartDate;
 }

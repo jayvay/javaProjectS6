@@ -38,7 +38,11 @@
 	</select>
 	
 	<select id="getCartList" resultType="com.spring.javaProjectS6.vo.CartVO">
-		select * from storeCart where mid = #{mid} order by cIdx;
+		select cart.*, prod.prodName, prod.prodPrice, prod.prodFSName, op.opName, op.opPrice 
+		from storeCart cart
+		inner join product prod on cart.prodIdx = prod.prodIdx 
+		inner join prodOption op on cart.opIdx = op.opIdx 
+		where cart.mid = #{mid} order by cart.cIdx;
 	</select>
 	
 	<select id="getCartSearch" resultType="com.spring.javaProjectS6.vo.CartVO">
@@ -51,6 +55,6 @@
 	</update>
 	
 	<insert id="setCartInput">
-		insert into storeCart values (default, #{vo.mid}, #{vo.prodIdx}, #{opIdx}, #{vo.quantity}, #{vo.totalPrice}, default);
+		insert into storeCart values (default, #{vo.mid}, #{vo.prodIdx}, #{vo.opIdx}, #{vo.quantity}, #{vo.totalPrice}, default);
 	</insert>
 </mapper>

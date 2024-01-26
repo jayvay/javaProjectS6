@@ -23,7 +23,7 @@ public interface StoreService {
 
 	public int setCartUpdate(CartVO cartVO);
 
-	public int setCartInput(CartVO vo, int opIdx);
+	public int setCartInput(CartVO vo);
 
 
 

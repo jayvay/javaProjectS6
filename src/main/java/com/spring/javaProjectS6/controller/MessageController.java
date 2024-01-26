@@ -5,12 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MessageController {
 
 	@RequestMapping(value = "/message/{msgFlag}", method = RequestMethod.GET)
-	public String msgGet(Model model, @PathVariable String msgFlag, String mid) {
+	public String msgGet(Model model, @PathVariable String msgFlag, 
+			@RequestParam(name = "mid", defaultValue = "", required = false) String mid, 
+			@RequestParam(name = "prodIdx", defaultValue = "0", required = false) int prodIdx) {
 		if(msgFlag.equals("joinOk")) {
 			model.addAttribute("msg", "회원가입이 완료되었습니다. 다시 로그인해 주세요.");
 			model.addAttribute("url", "member/login");	//URL은 매핑주소!!!!
@@ -57,13 +60,9 @@ public class MessageController {
 			model.addAttribute("msg", "옵션 등록 실패, 다시 시도하세요.");
 			model.addAttribute("url", "adminStore/storeProductOptionInput");
 		}
-		else if(msgFlag.equals("cartInputOk")) {
-			model.addAttribute("msg", "장바구니에 상품이 정상적으로 담겼습니다.");
-			model.addAttribute("url", "adminStore/storeProductOptionInput");
-		}
-		else if(msgFlag.equals("cartOrderNo")) {
+		else if(msgFlag.equals("cartInputNo")) {
 			model.addAttribute("msg", "장바구니 담기 실패, 다시 시도하세요.");
-			model.addAttribute("url", "store/goodsList");
+			model.addAttribute("url", "store/goodsDetail?prodIdx="+prodIdx);
 		}
 		
 		
