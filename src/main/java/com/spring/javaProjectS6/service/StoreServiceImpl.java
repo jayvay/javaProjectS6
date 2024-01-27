@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaProjectS6.dao.StoreDAO;
 import com.spring.javaProjectS6.vo.CartVO;
+import com.spring.javaProjectS6.vo.OrderVO;
 import com.spring.javaProjectS6.vo.ProductVO;
 
 @Service
@@ -56,8 +57,13 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public int setCartInput(CartVO vo) {
-		return storeDAO.setCartInput(vo);
+	public int setCartInput(CartVO cartVO) {
+		return storeDAO.setCartInput(cartVO);
+	}
+
+	@Override
+	public OrderVO getOrderMaxIdx() {
+		return storeDAO.getOrderMaxIdx();
 	}
 
 	

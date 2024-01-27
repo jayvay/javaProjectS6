@@ -79,14 +79,13 @@
 				      <td>
 				        <div class="text-center">
 					        <fmt:formatNumber value="${cartVO.opPrice}" pattern='#,###원'/><br/><br/>
-					        <input type="hidden" id="totalPrice${cartVO.CIdx}" value="${cartVO.totalPrice}"/>
 				        </div>
 				      </td>
 				      <td>${cartVO.quantity}</td>
 				      <td>
 				        <div class="text-center">
-					        <fmt:formatNumber value="${cartVO.totalPrice}" pattern='#,###원'/><br/><br/>
-					        <input type="hidden" id="totalPrice${cartVO.CIdx}" value="${cartVO.totalPrice}"/>
+					        <fmt:formatNumber value="${cartVO.opTotalPrice}" pattern='#,###원'/><br/><br/>
+					        <input type="hidden" id="opTotalPrice${cartVO.CIdx}" value="${cartVO.opTotalPrice}"/>
 				        </div>
 				      </td>
 				      <td>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaProjectS6.vo.CartVO;
+import com.spring.javaProjectS6.vo.OrderVO;
 import com.spring.javaProjectS6.vo.ProductVO;
 
 public interface StoreDAO {
@@ -25,7 +26,9 @@ public interface StoreDAO {
 
 	public int setCartUpdate(@Param("cartVO") CartVO cartVO);
 
-	public int setCartInput(@Param("vo") CartVO vo);
+	public int setCartInput(@Param("cartVO") CartVO cartVO);
+
+	public OrderVO getOrderMaxIdx();
 
 
 

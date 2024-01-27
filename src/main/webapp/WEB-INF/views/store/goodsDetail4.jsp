@@ -226,7 +226,7 @@
 	        </form>
 	      </div>
 				<div>
-	        <form name="myform" id="myform" method="post" >
+	        <form name="myform" method="post">
 	          <input type="hidden" name="mid" value="${sMid}"/>
 	          <input type="hidden" name="prodIdx" value="${prodVO.prodIdx}"/>
 	          <%-- <input type="hidden" name="prodName" value="${prodVO.prodName}"/> --%>
@@ -246,7 +246,7 @@
 					</span>원</span>
 	  		</div>
 	  		<div style="display: flex; justify-content: flex-end;">
-	  			<button class="btnCart" onclick="cartAdd()" formaction="${ctp}/">장바구니</button>
+	  			<button class="btnCart" onclick="cartAdd()">장바구니</button>
 	  			<button class="btnBuy" onclick="buyNow()">바로구매</button>
 	  		</div>
 	  	</div>
@@ -307,9 +307,8 @@
 			str += '<input type="text" id="opPriceComma'+opIdx+'" value="'+opPriceComma+'원" class="optionPrice" readonly/>';
 			str += '<button type="button" class="btnOpDelete" onclick="removeOption('+opIdx+')"><i class="ri-close-line"></i></button>';
       str += '<input type="hidden" name="opIdxArr" value="'+opIdx+'"/>';
-      /* str += '<input type="hidden" name="opName" value="'+opName+'"/>'; */
-			str += '<input type="hidden" id="opPrice'+opIdx+'" value="'+opPrice+'"/>';
-			str += '<input type="hidden" name="opTotalPriceArr" id="opTotalPriceArr'+opIdx+'" value="'+opPrice+'"/>';
+			/* str += '<input type="hidden" id="opPrice'+opIdx+'" value="'+opPrice+'"/>'; */
+			str += '<input type="hidden" name="opTotPriceArr" id="opTotPriceArr'+opIdx+'"/>';
 			str += '</div>';
 			str += '</div>';
 			$("#prodOptionSelect").append(str);
@@ -342,10 +341,10 @@
 				 cnt = 1;
 			 }
 		 }
-		 let opTotalPrice = cnt * opPrice;
-		 let opTotalPriceComma = numberWithCommas(opTotalPrice);
-		 document.getElementById("opTotalPriceArr"+opIdx).value = opTotalPrice;
-		 document.getElementById("opPriceComma"+opIdx).value = opTotalPriceComma + "원";
+		 let opTotPrice = cnt * opPrice;
+		 let opTotPriceComma = numberWithCommas(opTotPrice);
+		 document.getElementById("opTotPriceArr"+opIdx).value = opTotPrice;
+		 document.getElementById("opPriceComma"+opIdx).value = opTotPriceComma + "원";
 		 totPriceCalc();
 		 
 	}
@@ -385,8 +384,7 @@
 		else {
 			let ans = confirm("장바구니에 상품이 정상적으로 담겼습니다. 장바구니로 이동하시겠습니까?");
 			if(ans) document.getElementById("flag").value = "goCart";
-			/* else document.getElementById("flag").value = "stay"; */
-			
+			else document.getElementById("flag").value = "stay";
 			document.myform.submit();
 		}
 	}
@@ -403,9 +401,16 @@
 		}
 		else {
 			document.getElementById("flag").value = "order";
+			let opIdxArr = myform.opIdxArr.value;
+			let quantityArr = myform.quantityArr.value;
+			let opTotPriceArr = myform.opTotPriceArr.value;
 			
-			let myform = $("#myform");
-			myform.attr("action", "${ctp}/store/buyNow");
+			localStorage.setItem('prodIdx', '${prodVO.prodIdx}');
+			localStorage.setItem('opIdxArr', opIdxArr);
+			localStorage.setItem('quantityArr', quantityArr);
+			localStorage.setItem('opTotPriceArr', opTotPriceArr);
+			/* localStorage.setItem('totalPrice', totalPrice); */
+			
 			document.myform.submit();
 		}
 	}

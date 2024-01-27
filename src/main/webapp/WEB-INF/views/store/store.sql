@@ -11,8 +11,8 @@ create table majorCategory (
 /* 소분류 */
 create table subCategory (
 	majorCatCode char(1) not null,			-- 대분류 코드 (외래키) 
-	subCatCode char(3) not null,			-- 소분류 코드
-	subCatName varchar(20) not null,	-- 소분류명
+	subCatCode 	 char(3) not null,			-- 소분류 코드
+	subCatName 	 varchar(20) not null,	-- 소분류명
 	primary key	(subCatCode),
 	foreign key (majorCatCode) references majorCategory(majorCatCode),
 	unique key (subCatName)
@@ -20,15 +20,15 @@ create table subCategory (
 
 /* 상품 테이블 */
 create table product (
-	prdIdx int not null,
-	majorCatCode char(1) not null,
-	subCatCode char(3) not null,
-	prdCode varchar(20) not null,
-	prdName varchar(50) not null,
-	prdBrandName varchar(50) not null,
-	prdPrice int not null,
-	prdFSName varchar(200) not null,
-	prdContent text not null,
+	prdIdx 				int not null,
+	majorCatCode 	char(1) not null,
+	subCatCode 		char(3) not null,
+	prdCode 			varchar(20) not null,
+	prdName 			varchar(50) not null,
+	prdBrandName 	varchar(50) not null,
+	prdPrice 			int not null,
+	prdFSName 		varchar(200) not null,
+	prdContent 		text not null,
 	primary key (prdIdx),
 	unique key (prdCode, prdName),
 	foreign key (majorCatCode) references majorCategory(majorCatCode),
@@ -37,9 +37,9 @@ create table product (
 
 /* 상품 옵션 */
 create table prdOption (
-	opIdx int not null auto_increment,
-	prdIdx int not null,
-	opName varchar(50) not null,
+	opIdx 	int not null auto_increment,
+	prdIdx 	int not null,
+	opName 	varchar(50) not null,
 	opPrice int not null default 0,
 	primary key (opIdx),
 	foreign key (prdIdx) references product(prdIdx)
@@ -47,16 +47,37 @@ create table prdOption (
 
 /* 장바구니 */
 create table storeCart(
-  cIdx   int not null auto_increment,			/* 장바구니 고유번호 */
-  mid    varchar(20) not null,						/* 장바구니를 사용한 회원의 아이디 */
-  prodIdx  int not null,									/* 장바구니에 담은 상품의 고유번호 */
-  opIdx	  int not null,										/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
-  quantity 	int not null,									/* 구매수량 리스트(배열처리) */
-  totalPrice  int not null,								/* 구매한 모든 항목(상품과 옵션포함)에 따른 총 가격 */
-  cartDate datetime default now(),				/* 장바구니에 상품을 담은 날짜 */
+  cIdx   			 int not null auto_increment,			/* 장바구니 고유번호 */
+  mid    			 varchar(20) not null,						/* 장바구니를 사용한 회원의 아이디 */
+  prodIdx  		 int not null,										/* 장바구니에 담은 상품의 고유번호 */
+  opIdx	  	 	 int not null,										/* 옵션의 고유번호 리스트(여러개가 될수 있기에 문자열 배열로 처리한다.) */
+  quantity 	   int not null,										/* 구매수량 리스트(배열처리) */
+  opTotalPrice int not null,										/* 구매한 모든 항목(상품과 옵션포함)에 따른 총 가격 */
+  cartDate 		 datetime default now(),					/* 장바구니에 상품을 담은 날짜 */
   primary key(cIdx),
   foreign key(prodIdx) references product(prodIdx) on update cascade on delete cascade,
   foreign key(opIdx) references prodOption(opIdx) on update cascade on delete cascade
+);
+
+/* 주문하기 */
+create table orders (
+  oIdx   				int not null auto_increment,			/* 고유번호 */
+  orderIdx   		varchar(15) not null,							/* 주문 고유번호(새로 만들어준다.) */
+  orderDate  	 datetime default now(),						/* 실제 주문을 한 날짜 */
+  mid   				varchar(20) not null,							/* 주문자 아이디 */
+  prodIdx  			int not null,											/* 주문하는 상품의 고유번호 */
+  opIdx  				int not null,											/* 주문하는 상품의 옵션의 고유번호 */
+  quantity 			int not null,											/* 주문 수량 */
+  addrIdx				int not null,											/* 배송지 고유번호 */
+  opTotalPrice	int not null,											/* 주문 수량을 반영한 옵션의 가격 */
+  totalPrice 	  int not null,											/* 주문하는 상품들의 총 가격 */
+	payPrice			int not null,											/* 실제 지불한 금액 */
+	usedPoint			int not null default 0,						/* 사용한 포인트 */
+  payment				varchar(10) not null,							/* 결제 방법 */
+	orderStatus		varchar(20) not null,							/* 주문 진행 상태 */
+  primary key(oIdx, orderIdx),
+  foreign key(mid) references membership(mid),
+  foreign key(prodIdx) references product(prodIdx) on update cascade on delete restrict
 );
 
 --create table storeCart(

@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>cart.jsp</title>
+  <title>order.jsp</title>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <style>
   	body {padding-top: 180px;}
@@ -28,7 +28,7 @@
 					<th>주문아이디</th>
 					<td>${sMid}</td>
 					<th>주문날짜</th>
-					<td>${strToday}</td>
+					<td>20202020</td>	<!-- 240127_1737 수정하다 끝.. -->
 				</tr>
 			</table>
 			<h4>상품확인</h4>
@@ -45,13 +45,7 @@
 					<tbody>
 					<tr>
 						<td class="text-left">
-							<c:if test="${fn:contains(aVo.photo, 'https://')}">
-    						<img src="${aVo.photo}" style="width:150px; height:150px; margin:0 20px;"/>
-    					</c:if>
-    					<c:if test="${not fn:contains(aVo.photo, 'https://')}">
-    						<img src="${ctp}/images/album/${aVo.photo}" style="width:150px; height:150px; margin:0 20px;">
-    					</c:if>
-							
+  						<img src="${ctp}/store/product/${vo.photo}" style="width:150px; height:150px; margin:0 20px;">
 							<a href="shopAlbumDetail.shop?idx=${aVo.idx}">${aVo.alName}</a>
 						</td>
 						<td><fmt:formatNumber value="${aVo.price}" pattern="#,###"/></td>
