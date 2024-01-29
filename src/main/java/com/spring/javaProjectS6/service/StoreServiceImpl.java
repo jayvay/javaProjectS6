@@ -66,6 +66,11 @@ public class StoreServiceImpl implements StoreService {
 		return storeDAO.getOrderMaxIdx();
 	}
 
+	@Override
+	public CartVO getCartIdxSearch(int strCIdx) {
+		return storeDAO.getCartIdxSearch(strCIdx);
+	}
+
 	
 
 }

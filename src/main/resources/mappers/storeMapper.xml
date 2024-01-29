@@ -16,12 +16,11 @@
 		<if test='part == "전체"'>
 	 		select * from product order by prodIdx desc;
 	 	</if>
-	   <if test='part != "전체"'>
+    <if test='part != "전체"'>
 	 		select prod.*, sub.subCatName, major.majorCatName
 			from product prod 
 			join subCategory sub on substring(prod.prodCode,2,3)=sub.SubCatCode 
 			join majorCategory major on prod.majorCatCode = major.majorCatCode
-			where sub.subCatName = '스킨/토너' and major.majorCatName = '스킨케어' 
 			order by prodIdx desc;
 	 	</if>
 	</select>
@@ -51,6 +50,14 @@
 	
 	<select id="getOrderMaxIdx" resultType="int">
 		select max(oIdx) as maxOIdx from orders;
+	</select>
+	
+	<select id="getCartIdxSearch" resultType="com.spring.javaProjectS6.vo.CartVO">
+		select cart.*, prod.prodName, prod.prodPrice, prod.prodFSName, op.opName, op.opPrice 
+		from storeCart cart
+		inner join product prod on cart.prodIdx = prod.prodIdx 
+		inner join prodOption op on cart.opIdx = op.opIdx 
+		where cIdx = #{strCIdx};
 	</select>
 	
 	<update id="setCartUpdate">

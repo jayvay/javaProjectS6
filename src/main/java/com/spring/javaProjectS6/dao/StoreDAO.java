@@ -30,6 +30,8 @@ public interface StoreDAO {
 
 	public OrderVO getOrderMaxIdx();
 
+	public CartVO getCartIdxSearch(@Param("strCIdx") int strCIdx);
+
 
 
 

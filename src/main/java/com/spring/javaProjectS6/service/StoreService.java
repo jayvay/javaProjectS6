@@ -28,6 +28,8 @@ public interface StoreService {
 
 	public OrderVO getOrderMaxIdx();
 
+	public CartVO getCartIdxSearch(int strCIdx);
+
 
 
 
