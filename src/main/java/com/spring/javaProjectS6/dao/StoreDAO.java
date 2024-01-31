@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaProjectS6.vo.CartVO;
+import com.spring.javaProjectS6.vo.DeliveryVO;
 import com.spring.javaProjectS6.vo.OrderVO;
 import com.spring.javaProjectS6.vo.ProductVO;
 
@@ -31,6 +32,14 @@ public interface StoreDAO {
 	public OrderVO getOrderMaxIdx();
 
 	public CartVO getCartIdxSearch(@Param("strCIdx") int strCIdx);
+
+	//orderTransaction
+	public void setOrderInput(@Param("orderVO") OrderVO orderVO);
+	public void setCartDelete(@Param("cIdx") int cIdx);
+	public void setDeliveryInput(@Param("deliveryVO") DeliveryVO deliveryVO);
+	public int getDeliveryIdxSearch(@Param("orderIdx") String orderIdx);
+	public void setMemberPointPlus(@Param("savePoint") int savePoint, @Param("mid") String mid);
+
 
 
 

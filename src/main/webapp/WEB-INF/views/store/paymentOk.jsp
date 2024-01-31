@@ -9,18 +9,20 @@
   <jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-	
+	<style>
+  	body {padding-top: 180px;}
+  </style>
 	<script>
 		// IMP.init('imp21064327');
 		var IMP = window.IMP; 
-    IMP.init("imp87432616");
+    IMP.init("imp05878652");
 		
 		IMP.request_pay({
 		    pg : 'html5_inicis.INIpayTest',
 		    pay_method : 'card',
 		    merchant_uid : 'merchant_' + new Date().getTime(),
-		    name : '${paymentVO.name}',
-		    amount : 10,
+		    name : '${paymentVO.prodName}',
+		    amount : '${paymentVO.payPrice}',
 		    buyer_name : '${paymentVO.buyer_name}',
 		    buyer_tel : '${paymentVO.buyer_tel}',
 		    buyer_addr : '${paymentVO.buyer_addr}',
@@ -35,18 +37,18 @@
 		        msg += '\n카드 승인번호 : ' + rsp.apply_num;
 		        paySw = 'ok';
 		    } else {
-		        var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
+		        var msg = '결제에 실패하였습니다.<br/>';
+		        msg += '에러 : ' + rsp.error_msg;
 		    }
 		    alert(msg);
 		    if(paySw == 'no') {
 			    alert("다시 주문구매창으로 이동합니다.");
-		    	location.href='${ctp}/dbShop/dbProductList';
+		    	location.href='${ctp}/store/cart';
 		    }
 		    else {
 					var temp = "";
-					temp += '?name=${paymentVO.name}';
-					temp += '&amount=10';
+					temp += '?name=${paymentVO.prodName}';
+					temp += '&payPrice=${paymentVO.payPrice}';
 					temp += '&buyer_name=${paymentVO.buyer_name}';
 					temp += '&buyer_tel=${paymentVO.buyer_tel}';
 					temp += '&buyer_addr=${paymentVO.buyer_addr}';
@@ -66,10 +68,11 @@
 <jsp:include page="/WEB-INF/views/include/nav.jsp"/>
 <p><br></p>
 <div class="container">
-  <h2>결제처리 연습</h2>
-  <hr/>
-  <h3>현재 결제가 진행중입니다.</h3>
-  <p><img src="${ctp}/images/payment.gif" width="200px"/></p>
+	<hr/>
+	<div style="text-align:center;">
+	  <h3>현재 결제 진행 중입니다.</h3>
+	  <p><img src="${ctp}/images/payment.gif" width="200px"/></p>
+  </div>
   <hr/>
 </div>
 <br/>

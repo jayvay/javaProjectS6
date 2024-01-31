@@ -11,77 +11,50 @@
   <jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
   <style>
   	body {padding-top: 180px;}
+  	h2, h5 {text-align: center;}
+  	.btn {border-radius: 2px;}
+  	.table td {vertical-align: middle;}
+  	.table tr {border-bottom: 1px solid gray;}
   </style>
-  <script>
-	  function nWin(orderIdx) {
-	  	var url = "${ctp}/store/dbOrderBaesong?orderIdx="+orderIdx;
-	  	window.open(url,"dbOrderBaesong","width=350px,height=400px");
-	  }
-  </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp"/>
 <p><br></p>
 <div class="container">
-  <h2>결제내역</h2>
+  <h2>주문이 완료되었습니다</h2>
+  <h5><c:set var="orderIdx" value="${sOrderVOS[0].orderIdx}" />주문번호 : ${orderIdx}</h5>
   <hr/>
-  <p>주문 물품명 : ${sPaymentVO.name}</p>
-  <p>주문금액 : ${sPaymentVO.payPrice}(실제구매금액:${sPaymentVO.payPrice})</p>
-  <p>주문자 성명 : ${sPaymentVO.buyer_name}</p>
-  <p>주문자 전화번호 : ${sPaymentVO.buyer_tel}</p>
-  <p>주문자 주소 : ${sPaymentVO.buyer_addr}</p>
-  <p>주문자 우편번호 : ${sPaymentVO.buyer_postcode}</p>
-  <p>결제 고유ID : ${sPaymentVO.imp_uid}</p>
-  <p>결제 상점 거래 ID : ${sPaymentVO.merchant_uid}</p>
-  <p>결제 금액 : ${sPaymentVO.paid_amount}</p>
-  <p>카드 승인번호 : ${sPaymentVO.apply_num}</p>
-  <hr/>
-  <h2 class="text-center">주문완료</h2>
-  <hr/>
-  <table class="table table-bordered">
+  <table class="table table-borderless tbl">
     <tr style="text-align:center;background-color:#ccc;">
-      <th>상품이미지</th>
-      <th>주문일시</th>
-      <th>주문내역</th>
-      <th>비고</th>
+      <th colspan="4">주문상품</th>
     </tr>
-    <c:forEach var="vo" items="${sOrderVOS}">
+    <c:forEach var="orderVO" items="${sOrderVOS}">
       <tr>
         <td style="text-align:center;">
-          <img src="${ctp}/store/product/${vo.prodFSName}" width="100px"/>
-        </td>
-        <td style="text-align:center;"><br/>
-          <p>주문번호 : ${vo.orderIdx}</p>
-          <p>총 주문액 : <fmt:formatNumber value="${vo.payPrice}"/>원</p>
-          <p><input type="button" value="배송지정보" onclick="nWin('${vo.orderIdx}')"></p>
+          <img src="${ctp}/store/product/${orderVO.prodFSName}" width="120px"/>
         </td>
         <td align="left">
-	        <p><br/>모델명 : <span style="color:orange;font-weight:bold;">${vo.prodName}</span><br/> &nbsp; &nbsp; <fmt:formatNumber value="${vo.prodPrice}"/>원</p><br/>
-	        <%-- <c:set var="optionNames" value="${fn:split(vo.optionName,',')}"/>
-	        <c:set var="optionPrices" value="${fn:split(vo.optionPrice,',')}"/>
-	        <c:set var="optionNums" value="${fn:split(vo.optionNum,',')}"/>
-	        <p>
-	          - 주문 내역
-	          <c:if test="${fn:length(optionNames) > 1}">(옵션 ${fn:length(optionNames)-1}개 포함)</c:if><br/>
-	          <c:forEach var="i" begin="1" end="${fn:length(optionNames)}">
-	            &nbsp; &nbsp; ㆍ ${optionNames[i-1]} / <fmt:formatNumber value="${optionPrices[i-1]}"/>원 / ${optionNums[i-1]}개<br/>
-	          </c:forEach>  --%>
-	        </p>
+	        <p><br/>상품명 : <span style="font-weight:bold;">${orderVO.prodName}</span><br/></p>
+	        <p>옵션 : ${orderVO.opName}</p>
+	        <p>수량 : ${orderVO.quantity} 개</p>
 	      </td>
-        <td style="text-align:center;"><br/><font color="blue">결제완료</font><br/>(배송준비중)</td>
+        <td style="text-align:center;">
+          <p>총 상품금액 : <fmt:formatNumber value="${orderVO.opTotalPrice}"/>원</p>
+        </td>
+        <td style="text-align:center;">결제완료</td>
       </tr>
     </c:forEach>
   </table>
   <hr/>
   <div class="text-center">
-    구매한 상품 총 금액(배송비포함) : <fmt:formatNumber value="${vo.payPrice}"/>원
+  	<c:set var="payPrice" value="${sOrderVOS[0].payPrice}"/>
+    총 결제금액 (배송비 포함) : <fmt:formatNumber value="${payPrice}"/> 원
   </div>
   <hr/>
   <p class="text-center">
-    <a href="${ctp}/store/dbProductList" class="btn btn-success">계속쇼핑하기</a> &nbsp;
-    <a href="${ctp}/store/dbMyOrder" class="btn btn-primary">구매내역보기</a>
+    <a href="${ctp}/store/goodsList" class="btn btn-dark">계속쇼핑하기</a> &nbsp;
+    <a href="${ctp}/store/myOrder" class="btn btn-dark">구매내역보기</a>
   </p>
-  <hr/>
 </div>
 <br/>
 </body>

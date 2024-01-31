@@ -60,24 +60,41 @@ create table storeCart(
 );
 
 /* 주문하기 */
-create table orders (
+create table storeOrder (
   oIdx   				int not null auto_increment,			/* 고유번호 */
   orderIdx   		varchar(15) not null,							/* 주문 고유번호(새로 만들어준다.) */
-  orderDate  	 datetime default now(),						/* 실제 주문을 한 날짜 */
+  orderDate  	  datetime default now(),						/* 실제 주문을 한 날짜 */
   mid   				varchar(20) not null,							/* 주문자 아이디 */
+  dIdx					int not null,											/* 배송 고유번호 */
   prodIdx  			int not null,											/* 주문하는 상품의 고유번호 */
   opIdx  				int not null,											/* 주문하는 상품의 옵션의 고유번호 */
   quantity 			int not null,											/* 주문 수량 */
-  addrIdx				int not null,											/* 배송지 고유번호 */
   opTotalPrice	int not null,											/* 주문 수량을 반영한 옵션의 가격 */
   totalPrice 	  int not null,											/* 주문하는 상품들의 총 가격 */
 	payPrice			int not null,											/* 실제 지불한 금액 */
 	usedPoint			int not null default 0,						/* 사용한 포인트 */
   payment				varchar(10) not null,							/* 결제 방법 */
-	orderStatus		varchar(20) not null,							/* 주문 진행 상태 */
-  primary key(oIdx, orderIdx),
+	orderStatus		varchar(20) not null default '결제완료',		/* 주문 진행 상태 */
+  primary key(oIdx),
   foreign key(mid) references membership(mid),
   foreign key(prodIdx) references product(prodIdx) on update cascade on delete restrict
+);
+drop table delivery;
+
+/* 배송테이블 */
+create table delivery (
+  dIdx     			int not null auto_increment,
+  orderIdx    	varchar(15) not null,   							/* 주문 고유번호 */
+  mid        	  varchar(20) not null,   							/* 주문자 회원 아이디 */
+  name					varchar(20) not null,   							/* 받는사람 이름 */
+  tel						varchar(15) not null,									/* 받는사람 전화번호 */
+  postcode			varchar(10) not null,									/* 받는사람 전화번호 */
+  address    	 	varchar(100) not null,  							/* 배송지 (우편번호)주소 */
+  delivMsg     	varchar(100),													/* 배송시 요청사항 */
+  delivStatus 	varchar(10) not null default '배송전', /* 배송순서(배송전->배송중->배송완료) */
+  delivCode     varchar(20) not null default '없음',		/* 운송번호 */
+  delivDate 		varchar(10) default '배송미완료', 				/* 배송날짜(배송미완료->배송완료일) */
+  primary key(dIdx)
 );
 
 --create table storeCart(

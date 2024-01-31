@@ -4,12 +4,14 @@ import lombok.Data;
 
 @Data
 public class PaymentVO {
-	private String name;						// 주문 물품명
-	private int payPrice;							// 주문 금액
+	private String prodName;						// 주문 물품명
+	private int payPrice;						// 주문 금액
 	private String buyer_name;			// 주문자성명
 	private String buyer_tel;				// 전화번호
 	private String buyer_addr;			// 주소
 	private String buyer_postcode;	// 우편번호
+	
+  private String payment;
 	
 	private String imp_uid;				// 고유ID
 	private String merchant_uid;	// 상점 거래 ID

@@ -40,7 +40,7 @@
     function order() {
       var paymentCard = document.getElementById("paymentCard").value;
       var paymentBank = document.getElementById("paymentBank").value;
-      var payMethodBank = document.getElementById("payMethodBank").value;
+      var payBankName = document.getElementById("payBankName").value;
       
       var tel1 = myform.tel1.value;
       var tel2 = myform.tel2.value;
@@ -60,21 +60,19 @@
         alert("카드사를 선택하세요.");
         return false;
       }
-      else if(paymentBank != "" && payMethodBank == "") {
+      else if(paymentBank != "" && payBankName == "") {
         alert("입금할 은행과 입금자명을 입력하세요.");
         return false;
       }
+      
       var ans = confirm("결제하시겠습니까?");
       if(ans) {
         if(paymentCard != "") {
-          document.getElementById("payment").value = "C"+paymentCard;
+          document.getElementById("payment").value = "C" + paymentCard;
         }
         else {
-          document.getElementById("payment").value = "B"+paymentBank;
-          document.getElementById("payMethodBank").value = payMethodBank;
+          document.getElementById("payment").value = "B" + paymentBank + "/" + payBankName;
         }
-        
-        
         
         myform.action = "${ctp}/store/payment";
         myform.submit();
@@ -176,7 +174,7 @@
 					<th>배송메세지</th>
 					<td>
 						<div class="form-group">
-	            <input type="text" name="content" id="content" placeholder="배송시 요청사항을 입력해 주세요" class="form-control" />
+	            <input type="text" name="delivMsg" id="delivMsg" placeholder="배송시 요청사항을 입력해 주세요" class="form-control" />
 		        </div>
 		      </td>
 				</tr>
@@ -295,7 +293,7 @@
 		        </tr>
 		        <tr>
 		        	<th>입금자명</th>
-		        	<td><input type="text" name="payMethodBank" id="payMethodBank" class="form-control" required/></td></tr>
+		        	<td><input type="text" name="payBankName" id="payBankName" class="form-control" required/></td></tr>
 	        </table>
 	      </div>
 	    </div>
@@ -306,11 +304,10 @@
 	    </div>
 		  <input type="hidden" name="mid" value="${sMid}"/>
 		  <input type="hidden" name="payment" id="payment"/>
-		  <input type="hidden" name="payMethodBank" id="payMethodBank"/>
 			<%-- <input type="hidden" name="orderVOS" value="${orderVOS}"/>
 		  <input type="hidden" name="orderIdx" value="${orderIdx}"/> --%>
 		  <input type="hidden" name="payPrice" value="${payPrice}"/>
-		  <input type="hidden" name="name" value="${sOrderVOS[0].prodName}"/>
+		  <input type="hidden" name="prodName" value="${sOrderVOS[0].prodName}"/>
 		  <input type="hidden" name="buyer_tel"/>
 		  <input type="hidden" name="buyer_postcode"/>
 		  <input type="hidden" name="buyer_addr"/>

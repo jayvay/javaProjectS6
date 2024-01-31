@@ -48,8 +48,8 @@
 		select * from storeCart where prodIdx = #{prodIdx} and opIdx = #{opIdx} and mid = #{mid} order by cIdx;
 	</select>
 	
-	<select id="getOrderMaxIdx" resultType="int">
-		select max(oIdx) as maxOIdx from orders;
+	<select id="getOrderMaxIdx" resultType="com.spring.javaProjectS6.vo.OrderVO">
+		select max(oIdx) as maxOIdx from storeOrder;
 	</select>
 	
 	<select id="getCartIdxSearch" resultType="com.spring.javaProjectS6.vo.CartVO">
@@ -60,12 +60,34 @@
 		where cIdx = #{strCIdx};
 	</select>
 	
+	<select id="getDeliveryIdxSearch" resultType="int">
+		select dIdx from delivery where orderIdx = #{orderIdx} limit 1;
+	</select>
+	
 	<update id="setCartUpdate">
 		update storeCart set quantity = #{cartVO.quantity}, opTotalPrice = #{cartVO.opTotalPrice} 
 		where prodIdx = #{cartVO.prodIdx} and opIdx = #{cartVO.opIdx} and mid = #{cartVO.mid}; 
 	</update>
 	
+	<update id="setMemberPointPlus">
+		update membership set point = point + #{savePoint} where mid = #{mid};
+	</update>
+	
 	<insert id="setCartInput">
 		insert into storeCart values (default, #{cartVO.mid}, #{cartVO.prodIdx}, #{cartVO.opIdx}, #{cartVO.quantity}, #{cartVO.opTotalPrice}, default);
 	</insert>
+	
+	<insert id="setOrderInput">
+		insert into storeOrder values (default, #{orderVO.orderIdx}, default, #{orderVO.mid}, #{orderVO.dIdx}, #{orderVO.prodIdx}, #{orderVO.opIdx}, #{orderVO.quantity}, #{orderVO.opTotalPrice}, #{orderVO.totalPrice}, #{orderVO.payPrice}, #{orderVO.usedPoint}, #{orderVO.payment}, default);
+	</insert>
+	
+	<insert id="setDeliveryInput">
+		insert into delivery values (default, #{deliveryVO.orderIdx}, #{deliveryVO.mid}, #{deliveryVO.name}, #{deliveryVO.tel}, #{deliveryVO.postcode}, #{deliveryVO.address}, #{deliveryVO.delivMsg}, default, default, default);
+	</insert>
+	
+	
+	
+	<delete id="setCartDelete">
+		delete from storeCart where cIdx = #{cIdx};
+	</delete>
 </mapper>

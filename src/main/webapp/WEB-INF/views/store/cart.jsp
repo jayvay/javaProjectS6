@@ -113,7 +113,7 @@
         type : "post",
         url  : "${ctp}/store/cartDelete",
         data : {cIdx : cIdx},
-        success:function() {
+        success : function() {
           location.reload();
         },
         error : function() {

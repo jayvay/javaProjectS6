@@ -11,7 +11,7 @@ public class OrderVO {
   private int prodIdx;
   private int opIdx;
   private int quantity;
-  private int addrIdx;
+  private int dIdx;
   private int opTotalPrice;
   private int totalPrice;
   private int payPrice;
@@ -26,6 +26,6 @@ public class OrderVO {
   private int opPrice;
   
   private int cIdx;  // 장바구니 고유번호.
-  private int maxIdx;   // 주문번호를 구하기위한 기존 최대 비밀번호필드
+  private int maxOIdx;   // 주문번호를 구하기위한 기존 최대 비밀번호필드
   private int delivCharge;  // 배송비저장필드
 }

@@ -17,10 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaProjectS6.service.MemberService;
 import com.spring.javaProjectS6.service.StoreService;
 import com.spring.javaProjectS6.vo.CartVO;
+import com.spring.javaProjectS6.vo.DeliveryVO;
 import com.spring.javaProjectS6.vo.MemberVO;
 import com.spring.javaProjectS6.vo.OrderVO;
 import com.spring.javaProjectS6.vo.PaymentVO;
@@ -133,6 +135,13 @@ public class StoreController {
 		model.addAttribute("cartVOS", cartVOS);
 		return "store/cart";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/cartDelete", method = RequestMethod.POST)
+	public String cartDeletePost(int cIdx) {
+		storeService.setCartDelete(cIdx);
+		return "1";
+	}
 
 	@RequestMapping(value = "/buyNow", method = RequestMethod.POST)
 	public String buyNowPost(HttpSession session, CartVO vo, Model model) {
@@ -141,7 +150,7 @@ public class StoreController {
 		//주문번호 만들기
 		OrderVO maxIdx = storeService.getOrderMaxIdx();
 		int oIdx = 1;
-		if(maxIdx != null) oIdx = maxIdx.getMaxIdx() + 1;
+		if(maxIdx != null) oIdx = maxIdx.getMaxOIdx() + 1;
 		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -203,7 +212,7 @@ public class StoreController {
 		
 		OrderVO maxIdx = storeService.getOrderMaxIdx();
 		int oIdx = 1;
-		if(maxIdx != null) oIdx = maxIdx.getMaxIdx() + 1;
+		if(maxIdx != null) oIdx = maxIdx.getMaxOIdx() + 1;
 		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -235,6 +244,7 @@ public class StoreController {
       orderVO.setPayPrice(payPrice);
       orderVO.setDelivCharge(delivCharge);
 
+      //orderVO.setOIdx(oIdx); 
       orderVO.setOrderIdx(orderIdx); 
       orderVO.setMid(mid);
 
@@ -247,21 +257,118 @@ public class StoreController {
 		
 		return "store/order";
 	}
-	
+
 	// 결제시스템(결제창 호출) - 결제 API이용
 	@RequestMapping(value="/payment", method=RequestMethod.POST)
-	public String paymentPost(OrderVO orderVo, PaymentVO paymentVO, HttpSession session, Model model) {
+	public String paymentPost(OrderVO orderVo, PaymentVO paymentVO, DeliveryVO deliveryVO, HttpSession session, Model model) {
 		model.addAttribute("paymentVO", paymentVO);
-		
 		session.setAttribute("sPaymentVO", paymentVO);
-		//session.setAttribute("sBaesongVO", baesongVO);
+		session.setAttribute("sDeliveryVO", deliveryVO);
 		
 		return "store/paymentOk";
-		// return "redirect:/dbShop/paymentResult";
 	}
 	
 	@RequestMapping(value="/paymentResult", method=RequestMethod.GET)
-	public String paymentResultGet(HttpSession session, PaymentVO receivePaymentVO, Model model) {
+	public String paymentResultGet(HttpSession session, PaymentVO receivePaymentVO, 
+			@RequestParam(name="delivMsg", defaultValue="", required = false) String delivMsg) {
+		List<OrderVO> orderVOS = (List<OrderVO>) session.getAttribute("sOrderVOS");
+		PaymentVO paymentVO = (PaymentVO) session.getAttribute("sPaymentVO");
+		DeliveryVO deliveryVO = (DeliveryVO) session.getAttribute("sDeliveryVO");
+		
+		session.removeAttribute("sDeliveryVO");
+
+		deliveryVO.setOrderIdx(orderVOS.get(0).getOrderIdx());
+		deliveryVO.setName(paymentVO.getBuyer_name());
+		deliveryVO.setTel(paymentVO.getBuyer_tel());
+		deliveryVO.setPostcode(paymentVO.getBuyer_postcode());
+		deliveryVO.setAddress(paymentVO.getBuyer_addr());
+		deliveryVO.setDelivMsg(delivMsg);
+		
+		storeService.setOrderTransaction(deliveryVO, orderVOS, paymentVO);
+		
+		//storeService.setDeliveryInput(deliveryVO);
+		//int dIdx = storeService.getDeliveryIdxSearch(orderVOS.get(0).getOrderIdx());
+		
+//		for(OrderVO orderVO : orderVOS) {
+//			orderVO.setDIdx(dIdx);
+//			orderVO.setPayment(paymentVO.getPayment());
+//			System.out.println("orderVO: "+ orderVO);
+//			storeService.setOrderInput(orderVO);
+//			storeService.setCartDelete(orderVO.getCIdx());
+//		}
+		
+		//storeService.setMemberPointPlus((int)(orderVOS.get(0).getTotalPrice() * 0.01), orderVOS.get(0).getMid());
+		
+		paymentVO.setImp_uid(receivePaymentVO.getImp_uid());
+		paymentVO.setMerchant_uid(receivePaymentVO.getMerchant_uid());
+		paymentVO.setPaid_amount(receivePaymentVO.getPaid_amount());
+		paymentVO.setApply_num(receivePaymentVO.getApply_num());
+		
+		System.out.println("receivePaymentVO2: "+receivePaymentVO);
+		System.out.println("paymentVO2: "+paymentVO);
+		System.out.println("deliveryVO2: "+deliveryVO);
+		
+		session.setAttribute("sPaymentVO", paymentVO);
+		session.setAttribute("sOrderVOS", orderVOS);
 		return "store/paymentResult";
 	}
+	
+//	// 결제시스템(결제창 호출) - 결제 API이용
+//	@RequestMapping(value="/payment", method=RequestMethod.POST)
+//	public String paymentPost(OrderVO orderVo, PaymentVO paymentVO, DeliveryVO deliveryVO, HttpSession session, Model model) {
+//		model.addAttribute("paymentVO", paymentVO);
+//		session.setAttribute("sPaymentVO", paymentVO);
+//		session.setAttribute("sDeliveryVO", deliveryVO);
+//		
+//		System.out.println("paymentVO1:"+paymentVO);
+//		System.out.println("deliveryVO1:"+deliveryVO);
+//		return "store/paymentOk";
+//	}
+//	
+//	@RequestMapping(value="/paymentResult", method=RequestMethod.GET)
+//	public String paymentResultGet(HttpSession session, PaymentVO receivePaymentVO, 
+//			@RequestParam(name="delivMsg", defaultValue="", required = false) String delivMsg) {
+//		List<OrderVO> orderVOS = (List<OrderVO>) session.getAttribute("sOrderVOS");
+//		PaymentVO paymentVO = (PaymentVO) session.getAttribute("sPaymentVO");
+//		DeliveryVO deliveryVO = (DeliveryVO) session.getAttribute("sDeliveryVO");
+//		
+//		session.removeAttribute("sDeliveryVO");
+//
+//		deliveryVO.setOrderIdx(orderVOS.get(0).getOrderIdx());
+//		deliveryVO.setName(paymentVO.getBuyer_name());
+//		deliveryVO.setTel(paymentVO.getBuyer_tel());
+//		deliveryVO.setPostcode(paymentVO.getBuyer_postcode());
+//		deliveryVO.setAddress(paymentVO.getBuyer_addr());
+//		deliveryVO.setDelivMsg(delivMsg);
+//		
+//		storeService.setOrderTransaction(deliveryVO, orderVOS, paymentVO);
+//		
+//		//storeService.setDeliveryInput(deliveryVO);
+//		//int dIdx = storeService.getDeliveryIdxSearch(orderVOS.get(0).getOrderIdx());
+//		
+////		for(OrderVO orderVO : orderVOS) {
+////			orderVO.setDIdx(dIdx);
+////			orderVO.setPayment(paymentVO.getPayment());
+////			System.out.println("orderVO: "+ orderVO);
+////			storeService.setOrderInput(orderVO);
+////			storeService.setCartDelete(orderVO.getCIdx());
+////		}
+//		
+//		//storeService.setMemberPointPlus((int)(orderVOS.get(0).getTotalPrice() * 0.01), orderVOS.get(0).getMid());
+//		
+//		paymentVO.setImp_uid(receivePaymentVO.getImp_uid());
+//		paymentVO.setMerchant_uid(receivePaymentVO.getMerchant_uid());
+//		paymentVO.setPaid_amount(receivePaymentVO.getPaid_amount());
+//		paymentVO.setApply_num(receivePaymentVO.getApply_num());
+//		
+//		System.out.println("receivePaymentVO2: "+receivePaymentVO);
+//		System.out.println("paymentVO2: "+paymentVO);
+//		System.out.println("deliveryVO2: "+deliveryVO);
+//		
+//		session.setAttribute("sPaymentVO", paymentVO);
+//		session.setAttribute("sOrderVOS", orderVOS);
+//		return "store/paymentResult";
+//	}
+	
+	
 }
