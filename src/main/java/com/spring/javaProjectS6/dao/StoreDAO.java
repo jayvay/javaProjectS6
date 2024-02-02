@@ -40,6 +40,10 @@ public interface StoreDAO {
 	public int getDeliveryIdxSearch(@Param("orderIdx") String orderIdx);
 	public void setMemberPointPlus(@Param("savePoint") int savePoint, @Param("mid") String mid);
 
+	public int totRecCnt(@Param("mid") String mid);
+
+	public int totRecCntMyOrderStatus(String mid, String string, String string2, String string3);
+
 
 
 

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.javaProjectS.pagination.PageProcess;
+import com.spring.javaProjectS.pagination.PageVO;
 import com.spring.javaProjectS6.service.MemberService;
 import com.spring.javaProjectS6.service.StoreService;
 import com.spring.javaProjectS6.vo.CartVO;
@@ -38,7 +40,9 @@ public class StoreController {
 	@Autowired
 	MemberService memberService;
 	
-	@RequestMapping(value = "/goodsList", method = RequestMethod.GET)
+	@Autowired
+	PageProcess pageProcess;
+		@RequestMapping(value = "/goodsList", method = RequestMethod.GET)
 	public String goodsListGet(Model model, 
 			@RequestParam(name="majorCatCode", defaultValue = "", required = false) String majorCatCode,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part) {
@@ -370,5 +374,20 @@ public class StoreController {
 //		return "store/paymentResult";
 //	}
 	
-	
+	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
+	public String myOrderGet(HttpServletRequest request, HttpSession session, Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pag", defaultValue = "5", required = false) int pageSize,
+			@RequestParam(name="orderStatus", defaultValue = "전체", required = false) String orderStatus) {
+		
+		String mid = (String) session.getAttribute("sMid");
+		int level = (int) session.getAttribute("sLevel");
+		
+		if(level == 0) mid = "전체";
+		
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "dbMyOrder", mid, "");
+		
+		
+		return "";
+	}
 }
