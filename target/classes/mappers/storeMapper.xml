@@ -70,9 +70,8 @@
 		</if>
 		<if test='mid != "전체"'>
 			select count(d.dIdx) from storeOrder o 
-			join delivery d on o.orderIdx = d.orderIdx
-			join membership m on o.mid = m.mid 
-			where d.mid = #{mid} and date(o.orderDate) = substring(now(), 1,10);
+			join delivery d on o.orderIdx = d.orderIdx 
+			where o.mid = #{mid} and date(o.orderDate) = substring(now(), 1,10);
 		</if>
 	</select>
 	

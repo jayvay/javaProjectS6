@@ -126,6 +126,11 @@ public class StoreServiceImpl implements StoreService {
 		
 	}
 
+	@Override
+	public List<DeliveryVO> getMyOrderList(int startIndexNo, int pageSize, String mid) { //240203 여기 하다 말았음
+		return null;
+	}
+
 
 
 	

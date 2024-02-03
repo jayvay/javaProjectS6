@@ -31,7 +31,7 @@ public class PageProcess {
 //		}
 //		else if(section.equals("pds")) totRecCnt = pdsDAO.totRecCnt(part);
 //		else if(section.equals("member"))	totRecCnt = memberDAO.totRecCnt(searchString);
-		if(section.equals("dbMyOrder")) {
+		if(section.equals("myOrder")) {
 			String mid = part;
 			totRecCnt = storeDAO.totRecCnt(mid);
 		}

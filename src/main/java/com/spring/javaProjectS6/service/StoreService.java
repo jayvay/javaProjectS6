@@ -36,6 +36,8 @@ public interface StoreService {
 
 	public void setOrderTransaction(DeliveryVO deliveryVO, List<OrderVO> orderVOS, PaymentVO paymentVO);
 
+	public List<DeliveryVO> getMyOrderList(int startIndexNo, int pageSize, String mid);
+
 
 //	public void setOrderInput(OrderVO orderVO);
 //

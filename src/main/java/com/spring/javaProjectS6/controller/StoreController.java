@@ -385,9 +385,9 @@ public class StoreController {
 		
 		if(level == 0) mid = "전체";
 		
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "dbMyOrder", mid, "");
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", mid, "");
 		
-		
+		List<DeliveryVO> vos = storeService.getMyOrderList(pageVO.getStartIndexNo(), pageSize, mid);
 		return "";
 	}
 }
